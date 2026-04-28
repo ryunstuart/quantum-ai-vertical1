@@ -10,18 +10,28 @@ models = {
     'steering': joblib.load('model_steering.pkl')
 }
 
-def calculate_savings(claim: dict, ai_result: dict):
-    """Simple, reliable savings calculation"""
+def get_fraud_reasons(claim: dict, fraud_prob: float):
+    reasons = []
     billed = claim.get('billed_amount', 0)
-    predicted = ai_result.get("predictions", {}).get("predicted_cost", billed)
-    
-    incremental = max(0, billed - predicted)
-    shared = round(incremental * 0.08, 2)   # 8% shared savings
-    
-    return {
-        "incremental_savings": round(incremental, 2),
-        "shared_savings": shared
-    }
+    days = claim.get('days_since_injury', 0)
+    procs = claim.get('num_procedures', 0)
+
+    if billed > 4000:
+        reasons.append(f"Very high billed amount (${billed:,.0f})")
+    elif billed > 2500:
+        reasons.append(f"High billed amount (${billed:,.0f})")
+
+    if days < 7:
+        reasons.append(f"Treatment started very soon after injury (only {days} days)")
+
+    if procs > 5:
+        reasons.append(f"Unusually high number of procedures on day 1 ({procs})")
+
+    if not reasons:
+        reasons.append("No major red flags detected")
+
+    return reasons[:5]
+
 
 def predict_claim(claim: dict):
     df = pd.DataFrame([claim])
@@ -29,12 +39,17 @@ def predict_claim(claim: dict):
     X = X.reindex(columns=models['fraud'].feature_names_in_, fill_value=0)
 
     fraud_prob = float(models['fraud'].predict_proba(X)[0][1])
-    reasons = ["High billed amount", "Early treatment started"]   # Simplified for stability
+    reasons = get_fraud_reasons(claim, fraud_prob)
 
-    red_flag_count = len(reasons)
-    if red_flag_count >= 2 or fraud_prob > 0.4:
+    red_flag_count = len([r for r in reasons if "No major" not in r])
+
+    # Smarter, less aggressive risk logic
+    if fraud_prob > 0.75 or red_flag_count >= 3:
         risk_level = "🔴 HIGH RISK"
         action = "HOLD PAYMENT + Send for Investigation"
+    elif fraud_prob > 0.4 or red_flag_count >= 2:
+        risk_level = "🟠 MEDIUM RISK"
+        action = "Request additional documentation"
     else:
         risk_level = "🟢 LOW RISK"
         action = "Process normally"
@@ -55,12 +70,18 @@ def predict_claim(claim: dict):
         },
         "metadata": {
             "latency_ms": 45,
-            "model_version": "v1.2",
+            "model_version": "v1.3",
             "processed_at": "now"
         }
     }
 
-    # Add Savings Impact
-    result["savings_tracking"] = calculate_savings(claim, result)
+    # Savings Tracking
+    billed = claim.get('billed_amount', 0)
+    predicted = result["predictions"]["predicted_cost"]
+    incremental = max(0, billed - predicted)
+    result["savings_tracking"] = {
+        "incremental_savings": round(incremental, 2),
+        "shared_savings": round(incremental * 0.08, 2)
+    }
 
     return result
