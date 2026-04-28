@@ -49,11 +49,11 @@ def predict_claim(claim: dict):
 
     red_flag_count = len([r for r in reasons if "No major" not in r])
 
-    # Balanced Risk Logic (tuned for your examples)
-    if fraud_prob > 0.65 or red_flag_count >= 3:
+    # FINAL BALANCED RISK LOGIC
+    if fraud_prob > 0.6 or red_flag_count >= 3:
         risk_level = "🔴 HIGH RISK"
         action = "HOLD PAYMENT + Send for Investigation"
-    elif fraud_prob > 0.25 or red_flag_count >= 2:
+    elif fraud_prob > 0.2 or red_flag_count >= 2:
         risk_level = "🟠 MEDIUM RISK"
         action = "Request additional documentation"
     else:
@@ -76,7 +76,7 @@ def predict_claim(claim: dict):
         },
         "metadata": {
             "latency_ms": 45,
-            "model_version": "v1.4",
+            "model_version": "v1.5-final",
             "processed_at": "now"
         }
     }
