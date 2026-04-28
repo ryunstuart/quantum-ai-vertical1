@@ -32,20 +32,27 @@
       padding: 15px 30px;
       background: #f1f5f9;
       display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
+      flex-wrap: nowrap;
+      gap: 10px;
+      overflow-x: auto;
+      white-space: nowrap;
       justify-content: center;
     }
     .example-btn {
-      padding: 10px 20px;
+      padding: 10px 18px;
       background: white;
       border: 2px solid #1e40af;
       border-radius: 8px;
       cursor: pointer;
       font-size: 15px;
-      white-space: nowrap;
+      font-weight: 600;
+      color: #1e40af;
+      min-width: fit-content;
     }
-    .example-btn:hover { background: #1e40af; color: white; }
+    .example-btn:hover { 
+      background: #1e40af; 
+      color: white; 
+    }
 
     .form-container {
       padding: 30px;
@@ -115,7 +122,7 @@
     </div>
 
     <div class="examples">
-      <strong>Quick Test Claims:</strong>
+      <strong style="margin-right: 15px; align-self: center;">Quick Test Claims:</strong>
       <button class="example-btn" onclick="loadExample(1)">🔴 High Risk Claim</button>
       <button class="example-btn" onclick="loadExample(2)">🟢 Normal Claim</button>
       <button class="example-btn" onclick="loadExample(3)">🟠 Medium Risk Claim</button>
@@ -164,21 +171,22 @@
 
   <script>
     function loadExample(n) {
-      if (n === 1) { // High Risk
+      if (n === 1) { 
         document.getElementById('billed_amount').value = 4285;
         document.getElementById('days_since_injury').value = 1;
         document.getElementById('num_procedures').value = 6;
-      } else if (n === 2) { // Normal
+      } else if (n === 2) { 
         document.getElementById('billed_amount').value = 875;
         document.getElementById('days_since_injury').value = 45;
         document.getElementById('num_procedures').value = 1;
-      } else if (n === 3) { // Medium Risk
+      } else if (n === 3) { 
         document.getElementById('billed_amount').value = 2450;
         document.getElementById('days_since_injury').value = 8;
         document.getElementById('num_procedures').value = 5;
       }
     }
 
+    // The rest of the script stays the same
     const form = document.getElementById('claimForm');
     const button = document.getElementById('analyzeBtn');
     const btnText = document.getElementById('btnText');
