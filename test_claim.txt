@@ -1,0 +1,2 @@
+member_age,billed_amount,days_since_injury,num_procedures,procedure_cpt,diagnosis_icd,claim_type
+45,4285,1,5,99214,M54.5,WorkersComp
