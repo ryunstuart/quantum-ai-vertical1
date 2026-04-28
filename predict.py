@@ -16,13 +16,11 @@ def get_fraud_reasons(claim: dict, fraud_prob: float):
     days = claim.get('days_since_injury', 0)
     procs = claim.get('num_procedures', 0)
 
-    # Billed Amount
     if billed > 3800:
         reasons.append(f"Very high billed amount (${billed:,.0f})")
     elif billed > 2200:
         reasons.append(f"High billed amount (${billed:,.0f})")
 
-    # Days Since Injury - Fixed grammar
     if days == 1:
         reasons.append("Treatment started extremely soon after injury (only 1 day)")
     elif days < 7:
@@ -30,7 +28,6 @@ def get_fraud_reasons(claim: dict, fraud_prob: float):
     elif days < 14:
         reasons.append(f"Treatment started soon after injury ({days} days)")
 
-    # Procedures
     if procs > 6:
         reasons.append(f"Unusually high number of procedures on day 1 ({procs})")
     elif procs >= 4:
@@ -52,11 +49,11 @@ def predict_claim(claim: dict):
 
     red_flag_count = len([r for r in reasons if "No major" not in r])
 
-    # Improved Risk Logic - More balanced
-    if fraud_prob > 0.75 or red_flag_count >= 4:
+    # Balanced Risk Logic (tuned for your examples)
+    if fraud_prob > 0.65 or red_flag_count >= 3:
         risk_level = "🔴 HIGH RISK"
         action = "HOLD PAYMENT + Send for Investigation"
-    elif fraud_prob > 0.35 or red_flag_count >= 2:
+    elif fraud_prob > 0.25 or red_flag_count >= 2:
         risk_level = "🟠 MEDIUM RISK"
         action = "Request additional documentation"
     else:
