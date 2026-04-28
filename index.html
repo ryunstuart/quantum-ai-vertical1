@@ -27,27 +27,41 @@
       text-align: center;
     }
     .header h1 { margin: 0; font-size: 28px; }
+    
     .examples {
       padding: 15px 30px;
       background: #f1f5f9;
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 12px;
+      justify-content: center;
     }
     .example-btn {
-      padding: 10px 16px;
+      padding: 10px 20px;
       background: white;
       border: 2px solid #1e40af;
       border-radius: 8px;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 15px;
+      white-space: nowrap;
     }
     .example-btn:hover { background: #1e40af; color: white; }
-    .form-container { padding: 30px; }
+
+    .form-container {
+      padding: 30px;
+    }
+    .field {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: #334155;
+    }
     input, select {
       width: 100%;
       padding: 14px;
-      margin: 10px 0;
       border: 2px solid #e2e8f0;
       border-radius: 10px;
       font-size: 16px;
@@ -62,7 +76,7 @@
       border: none;
       border-radius: 10px;
       cursor: pointer;
-      margin-top: 15px;
+      margin-top: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -101,21 +115,42 @@
     </div>
 
     <div class="examples">
-      <strong>Quick Examples:</strong>
-      <button class="example-btn" onclick="loadExample(1)">High Risk Claim</button>
-      <button class="example-btn" onclick="loadExample(2)">Normal Claim</button>
-      <button class="example-btn" onclick="loadExample(3)">Medium Risk Claim</button>
+      <strong>Quick Test Claims:</strong>
+      <button class="example-btn" onclick="loadExample(1)">🔴 High Risk Claim</button>
+      <button class="example-btn" onclick="loadExample(2)">🟢 Normal Claim</button>
+      <button class="example-btn" onclick="loadExample(3)">🟠 Medium Risk Claim</button>
     </div>
 
     <div class="form-container">
       <form id="claimForm">
-        <input type="number" id="member_age" placeholder="Member Age" value="47" required>
-        <input type="number" id="billed_amount" placeholder="Billed Amount ($)" value="4285" required>
-        <input type="number" id="days_since_injury" placeholder="Days Since Injury" value="1" required>
-        <input type="number" id="num_procedures" placeholder="Number of Procedures" value="6" required>
-        <input type="text" id="procedure_cpt" placeholder="Procedure CPT Code" value="99214">
-        <input type="text" id="diagnosis_icd" placeholder="Diagnosis ICD Code" value="M54.5">
-        <input type="text" id="claim_type" placeholder="Claim Type" value="WorkersComp">
+        <div class="field">
+          <label>Member Age</label>
+          <input type="number" id="member_age" value="47" required>
+        </div>
+        <div class="field">
+          <label>Billed Amount ($)</label>
+          <input type="number" id="billed_amount" value="4285" required>
+        </div>
+        <div class="field">
+          <label>Days Since Injury</label>
+          <input type="number" id="days_since_injury" value="1" required>
+        </div>
+        <div class="field">
+          <label>Number of Procedures</label>
+          <input type="number" id="num_procedures" value="6" required>
+        </div>
+        <div class="field">
+          <label>Procedure CPT Code</label>
+          <input type="text" id="procedure_cpt" value="99214">
+        </div>
+        <div class="field">
+          <label>Diagnosis ICD Code</label>
+          <input type="text" id="diagnosis_icd" value="M54.5">
+        </div>
+        <div class="field">
+          <label>Claim Type</label>
+          <input type="text" id="claim_type" value="WorkersComp">
+        </div>
 
         <button type="submit" id="analyzeBtn">
           <span class="spinner" id="spinner"></span>
@@ -144,7 +179,6 @@
       }
     }
 
-    // Rest of the script (loading spinner + analysis) remains the same
     const form = document.getElementById('claimForm');
     const button = document.getElementById('analyzeBtn');
     const btnText = document.getElementById('btnText');
