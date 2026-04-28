@@ -1,8 +1,17 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from predict import predict_claim
+from pydantic import BaseModel
 
 app = FastAPI(title="Quantum One AI Layer")
+
+# Serve the dashboard at the root URL
+app.mount("/static", StaticFiles(directory="."), name="static")
+
+@app.get("/")
+async def serve_dashboard():
+    return FileResponse("index.html")
 
 class ClaimInput(BaseModel):
     member_age: int
@@ -12,12 +21,11 @@ class ClaimInput(BaseModel):
     procedure_cpt: str
     diagnosis_icd: str
     claim_type: str
-    provider_id: int = 123456   # optional
+    provider_id: int = 123456
 
 @app.post("/predict")
 async def predict(claim: ClaimInput):
-    result = predict_claim(claim.dict())
-    return result
+    return predict_claim(claim.dict())
 
 if __name__ == "__main__":
     import uvicorn
