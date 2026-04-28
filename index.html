@@ -5,32 +5,90 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quantum One AI - Claim Intelligence</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; background: #f4f6f9; }
-    .container { max-width: 900px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
-    h1 { color: #1e3a8a; text-align: center; }
-    input, select, button { padding: 12px; margin: 8px 0; width: 100%; border-radius: 8px; border: 1px solid #ccc; }
-    button { background: #1e40af; color: white; font-weight: bold; cursor: pointer; }
-    button:hover { background: #2563eb; }
-    .result { margin-top: 20px; padding: 20px; background: #f8fafc; border-radius: 10px; border-left: 6px solid #1e40af; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+      margin: 0;
+      padding: 20px;
+      color: #1e2937;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+    .header {
+      background: #1e40af;
+      color: white;
+      padding: 25px;
+      text-align: center;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+    .form-container {
+      padding: 30px;
+    }
+    input, select {
+      width: 100%;
+      padding: 14px;
+      margin: 10px 0;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+    button {
+      width: 100%;
+      padding: 16px;
+      background: #1e40af;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+    button:hover {
+      background: #2563eb;
+    }
+    .result {
+      margin: 20px;
+      padding: 25px;
+      background: #f8fafc;
+      border-radius: 12px;
+      border-left: 8px solid #1e40af;
+    }
     .high { border-left-color: #ef4444; }
+    .medium { border-left-color: #f59e0b; }
+    ul { padding-left: 20px; }
+    li { margin: 8px 0; }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>🔍 Quantum One AI Claim Intelligence</h1>
-    <p style="text-align:center; color:#666;">Real-time Fraud Detection + Predictive Analytics</p>
+    <div class="header">
+      <h1>🔍 Quantum One AI Claim Intelligence</h1>
+      <p>Real-time Fraud Detection + Predictive Analytics</p>
+    </div>
 
-    <form id="claimForm">
-      <input type="number" id="member_age" placeholder="Member Age" value="47" required>
-      <input type="number" id="billed_amount" placeholder="Billed Amount ($)" value="4285" required>
-      <input type="number" id="days_since_injury" placeholder="Days Since Injury" value="1" required>
-      <input type="number" id="num_procedures" placeholder="Number of Procedures" value="6" required>
-      <input type="text" id="procedure_cpt" placeholder="Procedure CPT" value="99214">
-      <input type="text" id="diagnosis_icd" placeholder="Diagnosis ICD" value="M54.5">
-      <input type="text" id="claim_type" placeholder="Claim Type" value="WorkersComp">
+    <div class="form-container">
+      <form id="claimForm">
+        <input type="number" id="member_age" placeholder="Member Age" value="47" required>
+        <input type="number" id="billed_amount" placeholder="Billed Amount ($)" value="4285" required>
+        <input type="number" id="days_since_injury" placeholder="Days Since Injury" value="1" required>
+        <input type="number" id="num_procedures" placeholder="Number of Procedures" value="6" required>
+        <input type="text" id="procedure_cpt" placeholder="Procedure CPT Code" value="99214">
+        <input type="text" id="diagnosis_icd" placeholder="Diagnosis ICD Code" value="M54.5">
+        <input type="text" id="claim_type" placeholder="Claim Type" value="WorkersComp">
 
-      <button type="submit">Analyze Claim</button>
-    </form>
+        <button type="submit">🚀 Analyze Claim</button>
+      </form>
+    </div>
 
     <div id="result" class="result" style="display:none;"></div>
   </div>
@@ -38,7 +96,10 @@
   <script>
     document.getElementById('claimForm').addEventListener('submit', async (e) => {
       e.preventDefault();
-      
+      const button = e.target.querySelector('button');
+      button.textContent = 'Analyzing...';
+      button.disabled = true;
+
       const data = {
         member_age: parseInt(document.getElementById('member_age').value),
         billed_amount: parseFloat(document.getElementById('billed_amount').value),
@@ -49,7 +110,7 @@
         claim_type: document.getElementById('claim_type').value
       };
 
-      const res = await fetch('https://quantum-ai-vertical1.onrender.com/predict', {
+      const res = await fetch('/predict', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -58,19 +119,27 @@
       const result = await res.json();
       const div = document.getElementById('result');
       
+      let riskClass = '';
+      if (result.claim_summary.risk_level.includes('HIGH')) riskClass = 'high';
+      else if (result.claim_summary.risk_level.includes('MEDIUM')) riskClass = 'medium';
+
+      div.className = `result ${riskClass}`;
       div.innerHTML = `
-        <h2>${result.claim_summary.risk_level} • Fraud Score: ${result.claim_summary.fraud_score}</h2>
-        <p><strong>Recommended Action:</strong> ${result.claim_summary.recommended_action}</p>
+        <h2>${result.claim_summary.risk_level} • Score: ${result.claim_summary.fraud_score}</h2>
+        <p><strong>Action:</strong> ${result.claim_summary.recommended_action}</p>
         <ul>
-          ${result.claim_summary.fraud_reasons.map(r => `<li>${r}</li>`).join('')}
+          ${result.claim_summary.fraud_reasons.map(r => `<li>⚠️ ${r}</li>`).join('')}
         </ul>
         <hr>
         <p><strong>Predicted Total Cost:</strong> $${result.predictions.predicted_cost}</p>
-        <p><strong>Forecasted RTW Days:</strong> ${result.predictions.forecasted_rtw_days}</p>
+        <p><strong>Forecasted RTW:</strong> ${result.predictions.forecasted_rtw_days} days</p>
         <p><strong>Provider Score:</strong> ${result.predictions.provider_score}</p>
         <p><strong>Steer Recommendation:</strong> ${result.predictions.steer_recommendation}</p>
       `;
       div.style.display = 'block';
+
+      button.textContent = '🚀 Analyze Claim';
+      button.disabled = false;
     });
   </script>
 </body>
