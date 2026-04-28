@@ -26,13 +26,24 @@
       padding: 25px;
       text-align: center;
     }
-    .header h1 {
-      margin: 0;
-      font-size: 28px;
+    .header h1 { margin: 0; font-size: 28px; }
+    .examples {
+      padding: 15px 30px;
+      background: #f1f5f9;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
     }
-    .form-container {
-      padding: 30px;
+    .example-btn {
+      padding: 10px 16px;
+      background: white;
+      border: 2px solid #1e40af;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
     }
+    .example-btn:hover { background: #1e40af; color: white; }
+    .form-container { padding: 30px; }
     input, select {
       width: 100%;
       padding: 14px;
@@ -69,11 +80,7 @@
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     .result {
       margin: 20px;
@@ -91,6 +98,13 @@
     <div class="header">
       <h1>🔍 Quantum One AI Claim Intelligence</h1>
       <p>Real-time Fraud Detection + Predictive Analytics</p>
+    </div>
+
+    <div class="examples">
+      <strong>Quick Examples:</strong>
+      <button class="example-btn" onclick="loadExample(1)">High Risk Claim</button>
+      <button class="example-btn" onclick="loadExample(2)">Normal Claim</button>
+      <button class="example-btn" onclick="loadExample(3)">Medium Risk Claim</button>
     </div>
 
     <div class="form-container">
@@ -114,6 +128,23 @@
   </div>
 
   <script>
+    function loadExample(n) {
+      if (n === 1) { // High Risk
+        document.getElementById('billed_amount').value = 4285;
+        document.getElementById('days_since_injury').value = 1;
+        document.getElementById('num_procedures').value = 6;
+      } else if (n === 2) { // Normal
+        document.getElementById('billed_amount').value = 875;
+        document.getElementById('days_since_injury').value = 45;
+        document.getElementById('num_procedures').value = 1;
+      } else if (n === 3) { // Medium Risk
+        document.getElementById('billed_amount').value = 2450;
+        document.getElementById('days_since_injury').value = 8;
+        document.getElementById('num_procedures').value = 5;
+      }
+    }
+
+    // Rest of the script (loading spinner + analysis) remains the same
     const form = document.getElementById('claimForm');
     const button = document.getElementById('analyzeBtn');
     const btnText = document.getElementById('btnText');
@@ -122,8 +153,6 @@
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-
-      // Show loading state
       btnText.style.display = 'none';
       spinner.style.display = 'inline-block';
       button.disabled = true;
@@ -144,7 +173,6 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data)
         });
-
         const result = await res.json();
 
         let riskClass = '';
@@ -155,9 +183,7 @@
         resultDiv.innerHTML = `
           <h2>${result.claim_summary.risk_level} • Score: ${result.claim_summary.fraud_score}</h2>
           <p><strong>Recommended Action:</strong> ${result.claim_summary.recommended_action}</p>
-          <ul>
-            ${result.claim_summary.fraud_reasons.map(r => `<li>⚠️ ${r}</li>`).join('')}
-          </ul>
+          <ul>${result.claim_summary.fraud_reasons.map(r => `<li>⚠️ ${r}</li>`).join('')}</ul>
           <hr>
           <p><strong>Predicted Total Cost:</strong> $${result.predictions.predicted_cost}</p>
           <p><strong>Forecasted RTW:</strong> ${result.predictions.forecasted_rtw_days} days</p>
@@ -170,7 +196,6 @@
         resultDiv.style.display = 'block';
       }
 
-      // Reset button
       btnText.style.display = 'inline';
       spinner.style.display = 'none';
       button.disabled = false;
