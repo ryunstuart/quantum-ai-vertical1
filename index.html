@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quantum One AI - Claim Intelligence</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f4f6f9; }
+    .container { max-width: 900px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+    h1 { color: #1e3a8a; text-align: center; }
+    input, select, button { padding: 12px; margin: 8px 0; width: 100%; border-radius: 8px; border: 1px solid #ccc; }
+    button { background: #1e40af; color: white; font-weight: bold; cursor: pointer; }
+    button:hover { background: #2563eb; }
+    .result { margin-top: 20px; padding: 20px; background: #f8fafc; border-radius: 10px; border-left: 6px solid #1e40af; }
+    .high { border-left-color: #ef4444; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔍 Quantum One AI Claim Intelligence</h1>
+    <p style="text-align:center; color:#666;">Real-time Fraud Detection + Predictive Analytics</p>
+
+    <form id="claimForm">
+      <input type="number" id="member_age" placeholder="Member Age" value="47" required>
+      <input type="number" id="billed_amount" placeholder="Billed Amount ($)" value="4285" required>
+      <input type="number" id="days_since_injury" placeholder="Days Since Injury" value="1" required>
+      <input type="number" id="num_procedures" placeholder="Number of Procedures" value="6" required>
+      <input type="text" id="procedure_cpt" placeholder="Procedure CPT" value="99214">
+      <input type="text" id="diagnosis_icd" placeholder="Diagnosis ICD" value="M54.5">
+      <input type="text" id="claim_type" placeholder="Claim Type" value="WorkersComp">
+
+      <button type="submit">Analyze Claim</button>
+    </form>
+
+    <div id="result" class="result" style="display:none;"></div>
+  </div>
+
+  <script>
+    document.getElementById('claimForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const data = {
+        member_age: parseInt(document.getElementById('member_age').value),
+        billed_amount: parseFloat(document.getElementById('billed_amount').value),
+        days_since_injury: parseInt(document.getElementById('days_since_injury').value),
+        num_procedures: parseInt(document.getElementById('num_procedures').value),
+        procedure_cpt: document.getElementById('procedure_cpt').value,
+        diagnosis_icd: document.getElementById('diagnosis_icd').value,
+        claim_type: document.getElementById('claim_type').value
+      };
+
+      const res = await fetch('https://quantum-ai-vertical1.onrender.com/predict', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      const result = await res.json();
+      const div = document.getElementById('result');
+      
+      div.innerHTML = `
+        <h2>${result.claim_summary.risk_level} • Fraud Score: ${result.claim_summary.fraud_score}</h2>
+        <p><strong>Recommended Action:</strong> ${result.claim_summary.recommended_action}</p>
+        <ul>
+          ${result.claim_summary.fraud_reasons.map(r => `<li>${r}</li>`).join('')}
+        </ul>
+        <hr>
+        <p><strong>Predicted Total Cost:</strong> $${result.predictions.predicted_cost}</p>
+        <p><strong>Forecasted RTW Days:</strong> ${result.predictions.forecasted_rtw_days}</p>
+        <p><strong>Provider Score:</strong> ${result.predictions.provider_score}</p>
+        <p><strong>Steer Recommendation:</strong> ${result.predictions.steer_recommendation}</p>
+      `;
+      div.style.display = 'block';
+    });
+  </script>
+</body>
+</html>
