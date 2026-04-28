@@ -10,7 +10,7 @@ models = {
     'steering': joblib.load('model_steering.pkl')
 }
 
-def get_fraud_reasons(claim: dict, fraud_prob: float):
+def get_fraud_reasons(claim: dict):
     reasons = []
     billed = claim.get('billed_amount', 0)
     days = claim.get('days_since_injury', 0)
@@ -45,15 +45,15 @@ def predict_claim(claim: dict):
     X = X.reindex(columns=models['fraud'].feature_names_in_, fill_value=0)
 
     fraud_prob = float(models['fraud'].predict_proba(X)[0][1])
-    reasons = get_fraud_reasons(claim, fraud_prob)
+    reasons = get_fraud_reasons(claim)
 
     red_flag_count = len([r for r in reasons if "No major" not in r])
 
-    # FINAL BALANCED RISK LOGIC
-    if fraud_prob > 0.6 or red_flag_count >= 3:
+    # FINAL SIMPLE & RELIABLE RISK LOGIC
+    if red_flag_count >= 3:
         risk_level = "🔴 HIGH RISK"
         action = "HOLD PAYMENT + Send for Investigation"
-    elif fraud_prob > 0.2 or red_flag_count >= 2:
+    elif red_flag_count >= 2:
         risk_level = "🟠 MEDIUM RISK"
         action = "Request additional documentation"
     else:
