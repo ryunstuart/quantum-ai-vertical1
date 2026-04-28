@@ -6,13 +6,14 @@ from pydantic import BaseModel
 
 app = FastAPI(title="Quantum One AI Layer")
 
-# Serve the dashboard at the root URL
+# Serve the nice dashboard at the root URL
 app.mount("/static", StaticFiles(directory="."), name="static")
 
 @app.get("/")
 async def serve_dashboard():
     return FileResponse("index.html")
 
+# Updated ClaimInput with new fields
 class ClaimInput(BaseModel):
     member_age: int
     billed_amount: float
@@ -21,6 +22,9 @@ class ClaimInput(BaseModel):
     procedure_cpt: str
     diagnosis_icd: str
     claim_type: str
+    # New fields
+    provider_fraud_history: int = 0
+    repeat_claimant: int = 0          # 0 = No, 1 = Yes
     provider_id: int = 123456
 
 @app.post("/predict")
