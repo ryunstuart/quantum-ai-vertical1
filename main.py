@@ -1,42 +1,38 @@
 from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from predict import predict_claim
 from pydantic import BaseModel
-from logger import get_monthly_summary
+import os
 
-app = FastAPI(title="Quantum One AI Layer")
+app = FastAPI(title="Quantum Sentinel")
 
-# Serve the nice dashboard at the root URL
-app.mount("/static", StaticFiles(directory="."), name="static")
-
-@app.get("/")
-async def serve_dashboard():
-    return FileResponse("index.html")
-
-# Updated Claim Input Model (with new fields)
 class ClaimInput(BaseModel):
     member_age: int
     billed_amount: float
     days_since_injury: int
     num_procedures: int
-    procedure_cpt: str
-    diagnosis_icd: str
-    claim_type: str
-    # New fields (optional with defaults)
-    provider_fraud_history: int = 0
-    repeat_claimant: int = 0          # 0 = No, 1 = Yes
-    provider_id: int = 123456
+    procedure_cpt: str = "99214"
+    diagnosis_icd: str = "M54.5"
+    claim_type: str = "WorkersComp"
+
+@app.get("/")
+async def serve_dashboard():
+    return FileResponse("index.html")
 
 @app.post("/predict")
 async def predict(claim: ClaimInput):
-    return predict_claim(claim.dict())
+    try:
+        return predict_claim(claim.dict())
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error": str(e)})
 
-# New Savings Report Endpoint
-@app.get("/savings-report")
-async def savings_report():
-    return get_monthly_summary()
+# Simple static file serving
+@app.get("/quantum-shield.png")
+async def serve_logo():
+    if os.path.exists("quantum-shield.png"):
+        return FileResponse("quantum-shield.png")
+    return {"error": "Logo not found"}
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+@app.get("/health")
+async def health():
+    return {"status": "ok"}
