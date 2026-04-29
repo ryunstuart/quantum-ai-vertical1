@@ -26,7 +26,6 @@
       background: linear-gradient(to right, #0f172a, #1e40af);
       padding: 32px 40px;
       text-align: center;
-      position: relative;
     }
     .header h1 {
       margin: 0;
@@ -34,33 +33,38 @@
       font-weight: 700;
       letter-spacing: -1px;
     }
-    .header h1 span {
-      color: #60a5fa;           /* Blue for "Sentinel" */
-    }
+    .header h1 span { color: #60a5fa; }
     .header p {
       margin: 8px 0 0;
       font-size: 18px;
       color: #94a3b8;
     }
 
+    /* Horizontal Buttons - Single Row */
     .examples {
       padding: 20px 40px;
       background: #1e2937;
       display: flex;
+      flex-wrap: nowrap;
       gap: 12px;
       justify-content: center;
-      flex-wrap: wrap;
+      overflow-x: auto;
     }
     .example-btn {
-      padding: 12px 24px;
+      padding: 14px 28px;
       background: #334155;
       color: white;
       border: none;
       border-radius: 12px;
       cursor: pointer;
       font-weight: 600;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
-    .example-btn:hover { background: #3b82f6; }
+    .example-btn:hover { 
+      background: #3b82f6; 
+      transform: translateY(-2px);
+    }
 
     .form-container { padding: 40px; background: #0f172a; }
     .field { margin-bottom: 20px; }
@@ -134,11 +138,20 @@
   </div>
 
   <script>
-    // (Keep the same working script from before)
     function loadExample(n) {
-      if (n === 1) { document.getElementById('billed_amount').value = 4285; document.getElementById('days_since_injury').value = 1; document.getElementById('num_procedures').value = 6; }
-      else if (n === 2) { document.getElementById('billed_amount').value = 875; document.getElementById('days_since_injury').value = 45; document.getElementById('num_procedures').value = 1; }
-      else if (n === 3) { document.getElementById('billed_amount').value = 2450; document.getElementById('days_since_injury').value = 8; document.getElementById('num_procedures').value = 5; }
+      if (n === 1) {
+        document.getElementById('billed_amount').value = 4285;
+        document.getElementById('days_since_injury').value = 1;
+        document.getElementById('num_procedures').value = 6;
+      } else if (n === 2) {
+        document.getElementById('billed_amount').value = 875;
+        document.getElementById('days_since_injury').value = 45;
+        document.getElementById('num_procedures').value = 1;
+      } else if (n === 3) {
+        document.getElementById('billed_amount').value = 2450;
+        document.getElementById('days_since_injury').value = 8;
+        document.getElementById('num_procedures').value = 5;
+      }
     }
 
     document.getElementById('claimForm').addEventListener('submit', async (e) => {
