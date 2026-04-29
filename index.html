@@ -144,6 +144,11 @@
       padding: 28px;
       margin: 30px 0;
       text-align: center;
+      animation: glow 2s infinite alternate;
+    }
+    @keyframes glow {
+      from { box-shadow: 0 0 15px #4ade80; }
+      to { box-shadow: 0 0 30px #4ade80; }
     }
   </style>
 </head>
@@ -158,6 +163,7 @@
     </div>
 
     <div class="examples">
+      <strong style="color:#94a3b8; margin-bottom: 12px; display:block;">Try Sample Claims:</strong>
       <button class="example-btn" onclick="loadExample(1)">🔴 High Risk Claim</button>
       <button class="example-btn" onclick="loadExample(2)">🟢 Normal Claim</button>
       <button class="example-btn" onclick="loadExample(3)">🟠 Medium Risk Claim</button>
@@ -242,4 +248,17 @@
           <p><strong>Predicted Total Cost:</strong> $${result.predictions.predicted_cost}</p>
           <p><strong>Forecasted RTW:</strong> ${result.predictions.forecasted_rtw_days} days</p>
           <p><strong>Provider Score:</strong> ${result.predictions.provider_score}</p>
-          <p><strong>Steer Recommendation:</strong> ${result.predictions.steer_recommendation
+          <p><strong>Steer Recommendation:</strong> ${result.predictions.steer_recommendation}</p>
+        `;
+        document.getElementById('result').style.display = 'block';
+      } catch (err) {
+        document.getElementById('result').innerHTML = `<p style="color:#ef4444; text-align:center;">Error analyzing claim. Please try again.</p>`;
+        document.getElementById('result').style.display = 'block';
+      }
+
+      btn.textContent = '🚀 Analyze Claim';
+      btn.disabled = false;
+    });
+  </script>
+</body>
+</html>
