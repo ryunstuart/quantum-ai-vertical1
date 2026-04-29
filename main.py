@@ -1,16 +1,16 @@
 from fastapi import FastAPI
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse, HTMLResponse
 from pydantic import BaseModel
 from predict import predict_claim
-import uvicorn
 
-app = FastAPI(title="Quantum Sentinel")
+app = FastAPI()
 
-# Serve static files
-app.mount("/static", StaticFiles(directory="."), name="static")
+@app.get("/")
+async def home():
+    return FileResponse("index.html")
 
-class ClaimInput(BaseModel):
+class Claim(BaseModel):
     member_age: int
     billed_amount: float
     days_since_injury: int
@@ -19,17 +19,14 @@ class ClaimInput(BaseModel):
     diagnosis_icd: str
     claim_type: str
 
-@app.get("/", response_class=HTMLResponse)
-async def serve_dashboard():
-    return FileResponse("index.html")
-
 @app.post("/predict")
-async def predict(claim: ClaimInput):
+async def predict(claim: Claim):
     try:
         result = predict_claim(claim.dict())
         return result
     except Exception as e:
-        return {"error": str(e)}
+        return JSONResponse({"error": str(e)}, status_code=500)
 
 if __name__ == "__main__":
+    import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
