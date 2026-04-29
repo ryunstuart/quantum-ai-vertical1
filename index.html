@@ -10,6 +10,7 @@
       background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
       margin: 0;
       padding: 20px;
+      color: #1e2937;
     }
     .container {
       max-width: 900px;
@@ -32,19 +33,24 @@
       padding: 15px 30px;
       background: #f1f5f9;
       display: flex;
-      gap: 12px;
       flex-wrap: wrap;
+      gap: 12px;
       justify-content: center;
     }
     .example-btn {
-      padding: 10px 18px;
+      padding: 12px 20px;
       background: white;
       border: 2px solid #1e40af;
       border-radius: 8px;
       cursor: pointer;
       font-weight: 600;
+      color: #1e40af;
+      white-space: nowrap;
     }
-    .example-btn:hover { background: #1e40af; color: white; }
+    .example-btn:hover { 
+      background: #1e40af; 
+      color: white; 
+    }
 
     .form-container { padding: 30px; }
     .field { margin-bottom: 16px; }
@@ -108,15 +114,15 @@
 
   <script>
     function loadExample(n) {
-      if (n === 1) {
+      if (n === 1) { // High Risk
         document.getElementById('billed_amount').value = 4285;
         document.getElementById('days_since_injury').value = 1;
         document.getElementById('num_procedures').value = 6;
-      } else if (n === 2) {
+      } else if (n === 2) { // Normal
         document.getElementById('billed_amount').value = 875;
         document.getElementById('days_since_injury').value = 45;
         document.getElementById('num_procedures').value = 1;
-      } else if (n === 3) {
+      } else if (n === 3) { // Medium Risk
         document.getElementById('billed_amount').value = 2450;
         document.getElementById('days_since_injury').value = 8;
         document.getElementById('num_procedures').value = 5;
@@ -165,7 +171,7 @@
         `;
         div.style.display = 'block';
       } catch (e) {
-        document.getElementById('result').innerHTML = `<p style="color:red;">Error. Please try again.</p>`;
+        document.getElementById('result').innerHTML = `<p style="color:red;">Error analyzing claim. Please try again.</p>`;
         document.getElementById('result').style.display = 'block';
       }
 
