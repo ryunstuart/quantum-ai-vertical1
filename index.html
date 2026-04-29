@@ -52,30 +52,31 @@
       opacity: 0.95;
     }
 
+    /* Compact Stacked Buttons */
     .examples {
-      padding: 24px 40px;
+      padding: 20px 40px;
       background: #1e2937;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
       align-items: center;
     }
     .example-btn {
-      padding: 14px 32px;
+      padding: 12px 28px;
       background: #334155;
       color: white;
       border: none;
       border-radius: 12px;
       cursor: pointer;
       font-weight: 600;
-      font-size: 15.5px;
-      width: 300px;
+      font-size: 15px;
+      width: 280px;
       transition: all 0.3s ease;
     }
     .example-btn:hover {
       background: #60a5fa;
-      transform: translateY(-4px);
-      box-shadow: 0 12px 25px rgba(96, 165, 250, 0.4);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(96, 165, 250, 0.3);
     }
 
     .form-container { padding: 40px; background: #0f172a; }
@@ -89,13 +90,7 @@
       border-radius: 12px;
       color: white;
       font-size: 16px;
-      transition: all 0.2s;
     }
-    input:focus {
-      border-color: #60a5fa;
-      box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
-    }
-
     button {
       width: 100%;
       padding: 18px;
@@ -119,13 +114,7 @@
       background: #1e2937;
       border-radius: 20px;
       border: 1px solid #334155;
-      animation: fadeInUp 0.5s ease forwards;
     }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
     .savings-box {
       background: linear-gradient(135deg, #052e16, #166534);
       border: 1px solid #4ade80;
@@ -133,11 +122,6 @@
       padding: 24px;
       margin: 25px 0;
       text-align: center;
-      animation: glow 2s infinite alternate;
-    }
-    @keyframes glow {
-      from { box-shadow: 0 0 15px #4ade80; }
-      to { box-shadow: 0 0 35px #4ade80; }
     }
   </style>
 </head>
@@ -153,7 +137,7 @@
     </div>
 
     <div class="examples">
-      <strong style="color:#94a3b8; margin-bottom: 10px;">Try Sample Claims:</strong>
+      <strong style="color:#94a3b8; margin-bottom: 8px;">Try Sample Claims:</strong>
       <button class="example-btn" onclick="loadExample(1)">🔴 High Risk Claim</button>
       <button class="example-btn" onclick="loadExample(2)">🟢 Normal Claim</button>
       <button class="example-btn" onclick="loadExample(3)">🟠 Medium Risk Claim</button>
