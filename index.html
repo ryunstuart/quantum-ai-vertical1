@@ -26,42 +26,19 @@
       border: 1px solid #475569;
     }
 
-    .header {
-      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-      padding: 38px 40px;
-      display: flex;
-      align-items: center;
-      gap: 28px;
-    }
-    .logo {
-      width: 98px;
-      height: 98px;
-      flex-shrink: 0;
-      border-radius: 20px;
-      box-shadow: 0 0 55px rgba(147, 197, 253, 0.95);
-    }
-
-    .header-content h1 {
-      margin: 0;
-      font-size: 46px;
-      font-weight: 700;
-      letter-spacing: -2.2px;
-    }
+    .header { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); padding: 38px 40px; display: flex; align-items: center; gap: 28px; }
+    .logo { width: 98px; height: 98px; border-radius: 20px; box-shadow: 0 0 55px rgba(147, 197, 253, 0.95); }
+    .header-content h1 { margin: 0; font-size: 46px; font-weight: 700; letter-spacing: -2.2px; }
     .header-content h1 span { color: #bae6fd; }
-    .header-content p {
-      margin: 8px 0 0;
-      font-size: 19.5px;
-      opacity: 0.96;
-    }
+    .header-content p { margin: 8px 0 0; font-size: 19.5px; opacity: 0.96; }
 
-    /* Horizontal Sample Buttons */
     .examples {
       padding: 28px 40px;
       background: #1e2937;
       display: flex;
-      flex-wrap: wrap;
       justify-content: center;
       gap: 14px;
+      flex-wrap: wrap;
       border-bottom: 1px solid #334155;
     }
     .example-btn {
@@ -82,14 +59,11 @@
       box-shadow: 0 12px 25px rgba(96, 165, 250, 0.5);
     }
 
-    .form-container { 
-      padding: 42px 40px; 
-      background: #0f172a; 
-    }
+    .form-container { padding: 42px 40px; background: #0f172a; }
     .form-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 28px 40px;   /* Increased horizontal padding between columns */
+      gap: 28px 40px;
     }
     label { 
       display: block; 
@@ -112,10 +86,15 @@
       box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.2);
     }
 
+    /* Analyze Button - Bottom Right */
+    .analyze-btn-container {
+      grid-column: 2 / -1;
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 10px;
+    }
     button {
-      grid-column: 1 / -1;
-      margin-top: 20px;
-      padding: 19px;
+      padding: 18px 42px;
       background: linear-gradient(90deg, #2563eb, #3b82f6);
       color: white;
       font-size: 18px;
@@ -124,42 +103,18 @@
       border-radius: 12px;
       cursor: pointer;
       transition: all 0.3s;
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
     }
     button:hover {
       transform: translateY(-4px);
-      box-shadow: 0 18px 40px rgba(37, 99, 235, 0.5);
-    }
-
-    .result {
-      margin: 32px;
-      padding: 40px;
-      background: linear-gradient(145deg, #1e2937, #172033);
-      border-radius: 22px;
-      border: 1px solid #475569;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-      animation: fadeInUp 0.6s ease;
-    }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .savings-box {
-      background: linear-gradient(135deg, #052e16, #166534);
-      border: 2px solid #4ade80;
-      border-radius: 16px;
-      padding: 28px;
-      margin: 30px 0;
-      text-align: center;
-      box-shadow: 0 0 35px rgba(74, 222, 128, 0.6);
+      box-shadow: 0 18px 40px rgba(37, 99, 235, 0.6);
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <img src="https://raw.githubusercontent.com/ryunstuart/quantum-ai-vertical1/main/quantum-shield.png" 
-           alt="Quantum Sentinel" class="logo">
+      <img src="https://raw.githubusercontent.com/ryunstuart/quantum-ai-vertical1/main/quantum-shield.png" alt="Quantum Sentinel" class="logo">
       <div class="header-content">
         <h1>Quantum<span>Sentinel</span></h1>
         <p>Real-Time Fraud Detection • Predictive Analytics • Savings Engine</p>
@@ -185,16 +140,20 @@
           <div class="field"><label>Diagnosis ICD Code</label><input type="text" id="diagnosis_icd" value="M54.5"></div>
           
           <div class="field"><label>Claim Type</label><input type="text" id="claim_type" value="WorkersComp"></div>
+          
+          <!-- Analyze Button in bottom right -->
+          <div class="analyze-btn-container">
+            <button type="submit" id="analyzeBtn">🚀 Analyze Claim</button>
+          </div>
         </div>
-
-        <button type="submit" id="analyzeBtn">🚀 Analyze Claim</button>
       </form>
     </div>
 
-    <div id="result" class="result" style="display:none;"></div>
+    <div id="result" class="result" style="display:none; margin:32px; padding:40px; background: linear-gradient(145deg, #1e2937, #172033); border-radius:22px; border:1px solid #475569;"></div>
   </div>
 
   <script>
+    // Example buttons
     function loadExample(n) {
       if (n === 1) {
         document.getElementById('billed_amount').value = 4285;
@@ -214,11 +173,8 @@
     document.getElementById('claimForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = document.getElementById('analyzeBtn');
-      const resultDiv = document.getElementById('result');
-      
       btn.textContent = 'Analyzing...';
       btn.disabled = true;
-      resultDiv.style.display = 'none';
 
       const data = {
         member_age: parseInt(document.getElementById('member_age').value),
@@ -236,34 +192,30 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data)
         });
-        
-        if (!res.ok) throw new Error('Server error');
-        
         const result = await res.json();
         const savings = result.savings_tracking || { incremental_savings: 0, shared_savings: 0 };
 
-        resultDiv.innerHTML = `
+        document.getElementById('result').innerHTML = `
           <h2>${result.claim_summary.risk_level} • Score: ${result.claim_summary.fraud_score}</h2>
           <p><strong>Recommended Action:</strong> ${result.claim_summary.recommended_action}</p>
           <ul>${result.claim_summary.fraud_reasons.map(r => `<li>⚠️ ${r}</li>`).join('')}</ul>
-
-          <div class="savings-box">
+          <div class="savings-box" style="background:linear-gradient(135deg,#052e16,#166534);border:2px solid #4ade80;border-radius:16px;padding:28px;margin:30px 0;text-align:center;">
             <h3>💰 Savings Impact</h3>
             <p>Incremental Savings: <strong>$${savings.incremental_savings}</strong></p>
             <p>Shared Savings (8%): <strong>$${savings.shared_savings}</strong></p>
           </div>
-
-          <hr style="border-color:#475569; margin: 28px 0;">
+          <hr style="border-color:#475569;margin:28px 0;">
           <p><strong>Predicted Total Cost:</strong> $${result.predictions.predicted_cost}</p>
           <p><strong>Forecasted RTW:</strong> ${result.predictions.forecasted_rtw_days} days</p>
           <p><strong>Provider Score:</strong> ${result.predictions.provider_score}</p>
           <p><strong>Steer Recommendation:</strong> ${result.predictions.steer_recommendation}</p>
         `;
+        document.getElementById('result').style.display = 'block';
       } catch (err) {
-        resultDiv.innerHTML = `<p style="color:#ef4444; text-align:center;">Error analyzing claim. Please try again.</p>`;
+        document.getElementById('result').innerHTML = `<p style="color:#ef4444;text-align:center;">Error analyzing claim. Please try again.</p>`;
+        document.getElementById('result').style.display = 'block';
       }
 
-      resultDiv.style.display = 'block';
       btn.textContent = '🚀 Analyze Claim';
       btn.disabled = false;
     });
