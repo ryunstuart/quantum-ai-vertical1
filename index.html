@@ -86,7 +86,6 @@
       box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.2);
     }
 
-    /* Centered Analyze Button - Full Width Below Form */
     button {
       display: block;
       margin: 32px auto 0;
@@ -104,6 +103,29 @@
     button:hover {
       transform: translateY(-4px);
       box-shadow: 0 18px 40px rgba(37, 99, 235, 0.6);
+    }
+
+    .result {
+      margin: 32px;
+      padding: 40px;
+      background: linear-gradient(145deg, #1e2937, #172033);
+      border-radius: 22px;
+      border: 1px solid #475569;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      animation: fadeInUp 0.6s ease;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .savings-box {
+      background: linear-gradient(135deg, #052e16, #166534);
+      border: 2px solid #4ade80;
+      border-radius: 16px;
+      padding: 28px;
+      margin: 30px 0;
+      text-align: center;
+      box-shadow: 0 0 35px rgba(74, 222, 128, 0.6);
     }
   </style>
 </head>
@@ -142,7 +164,7 @@
       </form>
     </div>
 
-    <div id="result" class="result" style="display:none; margin:32px; padding:40px; background: linear-gradient(145deg, #1e2937, #172033); border-radius:22px; border:1px solid #475569;"></div>
+    <div id="result" class="result" style="display:none;"></div>
   </div>
 
   <script>
@@ -165,8 +187,11 @@
     document.getElementById('claimForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = document.getElementById('analyzeBtn');
+      const resultDiv = document.getElementById('result');
+      
       btn.textContent = 'Analyzing...';
       btn.disabled = true;
+      resultDiv.style.display = 'none';
 
       const data = {
         member_age: parseInt(document.getElementById('member_age').value),
@@ -184,15 +209,16 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data)
         });
+
         const result = await res.json();
         const savings = result.savings_tracking || { incremental_savings: 0, shared_savings: 0 };
 
-        document.getElementById('result').innerHTML = `
+        resultDiv.innerHTML = `
           <h2>${result.claim_summary.risk_level} • Score: ${result.claim_summary.fraud_score}</h2>
           <p><strong>Recommended Action:</strong> ${result.claim_summary.recommended_action}</p>
           <ul>${result.claim_summary.fraud_reasons.map(r => `<li>⚠️ ${r}</li>`).join('')}</ul>
 
-          <div class="savings-box" style="background:linear-gradient(135deg,#052e16,#166534);border:2px solid #4ade80;border-radius:16px;padding:28px;margin:30px 0;text-align:center;">
+          <div class="savings-box">
             <h3>💰 Savings Impact</h3>
             <p>Incremental Savings: <strong>$${savings.incremental_savings}</strong></p>
             <p>Shared Savings (8%): <strong>$${savings.shared_savings}</strong></p>
@@ -204,10 +230,10 @@
           <p><strong>Provider Score:</strong> ${result.predictions.provider_score}</p>
           <p><strong>Steer Recommendation:</strong> ${result.predictions.steer_recommendation}</p>
         `;
-        document.getElementById('result').style.display = 'block';
+        resultDiv.style.display = 'block';
       } catch (err) {
-        document.getElementById('result').innerHTML = `<p style="color:#ef4444; text-align:center;">Error analyzing claim. Please try again.</p>`;
-        document.getElementById('result').style.display = 'block';
+        resultDiv.innerHTML = `<p style="color:#ef4444; text-align:center; font-size:16px;">Error analyzing claim. Please try again.</p>`;
+        resultDiv.style.display = 'block';
       }
 
       btn.textContent = '🚀 Analyze Claim';
