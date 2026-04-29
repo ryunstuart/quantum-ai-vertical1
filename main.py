@@ -15,17 +15,15 @@ class ClaimInput(BaseModel):
     claim_type: str
 
 @app.get("/")
-async def serve():
+async def home():
     return FileResponse("index.html")
 
 @app.post("/predict")
 async def predict(claim: ClaimInput):
     try:
-        result = predict_claim(claim.dict())
-        return result
+        return predict_claim(claim.dict())
     except Exception as e:
-        print("Error:", str(e))  # For debugging
-        return {"error": "Analysis failed. Please try again."}
+        return {"error": str(e)}
 
 if __name__ == "__main__":
     import uvicorn

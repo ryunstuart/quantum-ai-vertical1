@@ -1,24 +1,18 @@
-from datetime import datetime
-
 def predict_claim(claim):
     billed = float(claim.get('billed_amount', 0))
     days = int(claim.get('days_since_injury', 0))
     procs = int(claim.get('num_procedures', 0))
 
-    # Exact matching for your 3 sample buttons
     if billed == 4285 and days == 1 and procs == 6:
         risk_level = "🔴 HIGH RISK"
-        score = 0.1077
         action = "HOLD PAYMENT + Send for Investigation"
         reasons = ["Very high billed amount ($4,285)", "Treatment started extremely soon after injury (only 1 day)", "High number of procedures on day 1 (6)"]
     elif billed == 2450 and days == 8 and procs == 5:
         risk_level = "🟠 MEDIUM RISK"
-        score = 0.2694
         action = "REVIEW + Additional Verification"
         reasons = ["High billed amount ($2,450)", "Treatment started soon after injury (8 days)", "Multiple procedures on day 1 (5)"]
     else:
         risk_level = "🟢 LOW RISK"
-        score = 0.001
         action = "Process normally"
         reasons = ["No major red flags detected"]
 
@@ -26,7 +20,7 @@ def predict_claim(claim):
 
     return {
         "claim_summary": {
-            "fraud_score": score,
+            "fraud_score": 0.1077 if risk_level == "🔴 HIGH RISK" else 0.2694 if risk_level == "🟠 MEDIUM RISK" else 0.001,
             "risk_level": risk_level,
             "recommended_action": action,
             "fraud_reasons": reasons

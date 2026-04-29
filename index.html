@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quantum Sentinel - AI Claims Intelligence</title>
   <link rel="icon" href="https://raw.githubusercontent.com/ryunstuart/quantum-ai-vertical1/main/quantum-shield.png" type="image/png">
-
+  
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
+    
     body {
       font-family: 'Inter', sans-serif;
       background: linear-gradient(135deg, #0a0f1c 0%, #1a2338 100%);
@@ -21,83 +21,100 @@
       margin: auto;
       background: rgba(15, 23, 42, 0.98);
       border-radius: 24px;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7);
       overflow: hidden;
-      border: 1px solid #334155;
+      border: 1px solid #475569;
     }
-    .header {
-      background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-      padding: 32px 40px;
-      display: flex;
-      align-items: center;
-      gap: 24px;
+
+    .header { 
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); 
+      padding: 38px 40px; 
+      display: flex; 
+      align-items: center; 
+      gap: 28px; 
     }
-    .logo {
-      width: 85px;
-      height: 85px;
-      flex-shrink: 0;
-      border-radius: 16px;
-      box-shadow: 0 0 40px rgba(147, 197, 253, 0.9);
+    .logo { 
+      width: 98px; 
+      height: 98px; 
+      border-radius: 20px; 
+      box-shadow: 0 0 55px rgba(147, 197, 253, 0.95); 
       object-fit: contain;
     }
-    .header-content h1 {
-      margin: 0;
-      font-size: 42px;
-      font-weight: 700;
-      letter-spacing: -1.5px;
+    .header-content h1 { 
+      margin: 0; 
+      font-size: 46px; 
+      font-weight: 700; 
+      letter-spacing: -2.2px; 
     }
     .header-content h1 span { color: #bae6fd; }
-    .header-content p {
-      margin: 6px 0 0;
-      font-size: 18.5px;
-      opacity: 0.95;
+    .header-content p { 
+      margin: 8px 0 0; 
+      font-size: 19.5px; 
+      opacity: 0.96; 
     }
+
     .examples {
-      padding: 24px 40px;
+      padding: 28px 40px;
       background: #1e2937;
       display: flex;
-      flex-direction: column;
-      gap: 12px;
-      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #334155;
     }
     .example-btn {
-      padding: 14px 32px;
+      padding: 13px 28px;
       background: #334155;
       color: white;
       border: none;
       border-radius: 12px;
       cursor: pointer;
       font-weight: 600;
-      font-size: 15.5px;
-      width: 300px;
+      font-size: 15px;
+      min-width: 210px;
       transition: all 0.3s ease;
     }
     .example-btn:hover {
       background: #60a5fa;
       transform: translateY(-4px);
-      box-shadow: 0 12px 25px rgba(96, 165, 250, 0.4);
+      box-shadow: 0 12px 25px rgba(96, 165, 250, 0.5);
     }
-    .form-container { padding: 40px; background: #0f172a; }
-    .field { margin-bottom: 22px; }
-    label { display: block; margin-bottom: 8px; font-weight: 600; color: #94a3b8; }
+
+    .form-container { 
+      padding: 42px 40px; 
+      background: #0f172a; 
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px 40px;
+    }
+    label { 
+      display: block; 
+      margin-bottom: 9px; 
+      font-weight: 600; 
+      color: #94a3b8;
+      font-size: 14.8px;
+    }
     input {
       width: 100%;
-      padding: 16px;
+      padding: 17px 18px;
       background: #1e2937;
       border: 1px solid #475569;
       border-radius: 12px;
       color: white;
       font-size: 16px;
-      transition: all 0.2s;
     }
     input:focus {
       border-color: #60a5fa;
-      box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+      box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.2);
     }
+
     button {
-      width: 100%;
-      padding: 18px;
-      background: linear-gradient(90deg, #3b82f6, #60a5fa);
+      display: block;
+      margin: 32px auto 0;
+      padding: 19px 60px;
+      background: linear-gradient(90deg, #2563eb, #3b82f6);
       color: white;
       font-size: 18px;
       font-weight: 700;
@@ -105,43 +122,35 @@
       border-radius: 12px;
       cursor: pointer;
       transition: all 0.3s;
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
     }
     button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 15px 30px rgba(59, 130, 246, 0.5);
+      transform: translateY(-4px);
+      box-shadow: 0 18px 40px rgba(37, 99, 235, 0.6);
     }
+
     .result {
-      margin: 30px;
-      padding: 35px;
-      background: #1e2937;
-      border-radius: 20px;
-      border: 1px solid #334155;
-      animation: fadeIn 0.4s ease;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+      margin: 32px;
+      padding: 40px;
+      background: linear-gradient(145deg, #1e2937, #172033);
+      border-radius: 22px;
+      border: 1px solid #475569;
+      display: none;
     }
     .savings-box {
       background: linear-gradient(135deg, #052e16, #166534);
-      border: 1px solid #4ade80;
+      border: 2px solid #4ade80;
       border-radius: 16px;
-      padding: 24px;
-      margin: 25px 0;
+      padding: 28px;
+      margin: 30px 0;
       text-align: center;
-      animation: glow 2s infinite alternate;
-    }
-    @keyframes glow {
-      from { box-shadow: 0 0 15px #4ade80; }
-      to { box-shadow: 0 0 30px #4ade80; }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <img src="https://raw.githubusercontent.com/ryunstuart/quantum-ai-vertical1/main/quantum-shield.png"
-           alt="Quantum Sentinel" class="logo">
+      <img src="https://raw.githubusercontent.com/ryunstuart/quantum-ai-vertical1/main/quantum-shield.png" alt="Quantum Sentinel" class="logo">
       <div class="header-content">
         <h1>Quantum<span>Sentinel</span></h1>
         <p>Real-Time Fraud Detection • Predictive Analytics • Savings Engine</p>
@@ -149,7 +158,6 @@
     </div>
 
     <div class="examples">
-      <strong style="color:#94a3b8; margin-bottom: 10px;">Try Sample Claims:</strong>
       <button class="example-btn" onclick="loadExample(1)">🔴 High Risk Claim</button>
       <button class="example-btn" onclick="loadExample(2)">🟢 Normal Claim</button>
       <button class="example-btn" onclick="loadExample(3)">🟠 Medium Risk Claim</button>
@@ -157,18 +165,24 @@
 
     <div class="form-container">
       <form id="claimForm">
-        <div class="field"><label>Member Age</label><input type="number" id="member_age" value="47" required></div>
-        <div class="field"><label>Billed Amount ($)</label><input type="number" id="billed_amount" value="4285" required></div>
-        <div class="field"><label>Days Since Injury</label><input type="number" id="days_since_injury" value="1" required></div>
-        <div class="field"><label>Number of Procedures</label><input type="number" id="num_procedures" value="6" required></div>
-        <div class="field"><label>Procedure CPT Code</label><input type="text" id="procedure_cpt" value="99214"></div>
-        <div class="field"><label>Diagnosis ICD Code</label><input type="text" id="diagnosis_icd" value="M54.5"></div>
-        <div class="field"><label>Claim Type</label><input type="text" id="claim_type" value="WorkersComp"></div>
+        <div class="form-grid">
+          <div><label>Member Age</label><input type="number" id="member_age" value="47" required></div>
+          <div><label>Billed Amount ($)</label><input type="number" id="billed_amount" value="4285" required></div>
+          
+          <div><label>Days Since Injury</label><input type="number" id="days_since_injury" value="1" required></div>
+          <div><label>Number of Procedures</label><input type="number" id="num_procedures" value="6" required></div>
+          
+          <div><label>Procedure CPT Code</label><input type="text" id="procedure_cpt" value="99214"></div>
+          <div><label>Diagnosis ICD Code</label><input type="text" id="diagnosis_icd" value="M54.5"></div>
+          
+          <div><label>Claim Type</label><input type="text" id="claim_type" value="WorkersComp"></div>
+        </div>
+
         <button type="submit" id="analyzeBtn">🚀 Analyze Claim</button>
       </form>
     </div>
 
-    <div id="result" class="result" style="display:none;"></div>
+    <div id="result" class="result"></div>
   </div>
 
   <script>
@@ -211,33 +225,21 @@
           body: JSON.stringify(data)
         });
         const result = await res.json();
-
         const savings = result.savings_tracking || { incremental_savings: 0, shared_savings: 0 };
 
         document.getElementById('result').innerHTML = `
           <h2>${result.claim_summary.risk_level} • Score: ${result.claim_summary.fraud_score}</h2>
           <p><strong>Recommended Action:</strong> ${result.claim_summary.recommended_action}</p>
-          <ul>${result.claim_summary.fraud_reasons.map(r => `<li>⚠️ ${r}</li>`).join('')}</ul>
+          <ul>${(result.claim_summary.fraud_reasons || []).map(r => `<li>⚠️ ${r}</li>`).join('')}</ul>
+
           <div class="savings-box">
             <h3>💰 Savings Impact</h3>
             <p>Incremental Savings: <strong>$${savings.incremental_savings}</strong></p>
             <p>Shared Savings (8%): <strong>$${savings.shared_savings}</strong></p>
           </div>
-          <hr style="border-color:#475569">
+
+          <hr style="border-color:#475569; margin:28px 0;">
           <p><strong>Predicted Total Cost:</strong> $${result.predictions.predicted_cost}</p>
           <p><strong>Forecasted RTW:</strong> ${result.predictions.forecasted_rtw_days} days</p>
           <p><strong>Provider Score:</strong> ${result.predictions.provider_score}</p>
-          <p><strong>Steer Recommendation:</strong> ${result.predictions.steer_recommendation}</p>
-        `;
-        document.getElementById('result').style.display = 'block';
-      } catch (err) {
-        document.getElementById('result').innerHTML = `<p style="color:#ef4444;">Error analyzing claim. Please try again.</p>`;
-        document.getElementById('result').style.display = 'block';
-      }
-
-      btn.textContent = '🚀 Analyze Claim';
-      btn.disabled = false;
-    });
-  </script>
-</body>
-</html>
+          <p><strong>Steer Recommendation:</strong> ${result.predictions.steer_recommendation
