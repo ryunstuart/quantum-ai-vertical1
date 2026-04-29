@@ -51,28 +51,25 @@
       color: #94a3b8;
     }
 
-    /* TIGHT & COMPACT BUTTONS */
     .examples {
       padding: 15px 40px;
       background: #1e2937;
       display: flex;
-      flex-wrap: nowrap;
-      gap: 6px;
+      gap: 8px;
       justify-content: center;
-      overflow-x: auto;
+      flex-wrap: wrap;   /* Allow wrap if needed, but they should fit */
     }
     .example-btn {
-      padding: 8px 12px;
+      padding: 9px 16px;
       background: #334155;
       color: white;
       border: none;
       border-radius: 8px;
       cursor: pointer;
       font-weight: 600;
-      font-size: 13.5px;
+      font-size: 14px;
       white-space: nowrap;
-      flex-shrink: 0;
-      min-width: 100px;   /* Narrow */
+      min-width: 110px;
     }
     .example-btn:hover { background: #3b82f6; }
 
@@ -129,9 +126,9 @@
     </div>
 
     <div class="examples">
-      <button class="example-btn" onclick="loadExample(1)">🔴 High Risk</button>
-      <button class="example-btn" onclick="loadExample(2)">🟢 Normal</button>
-      <button class="example-btn" onclick="loadExample(3)">🟠 Medium</button>
+      <button class="example-btn" onclick="loadExample(1)">🔴 High Risk Claim</button>
+      <button class="example-btn" onclick="loadExample(2)">🟢 Normal Claim</button>
+      <button class="example-btn" onclick="loadExample(3)">🟠 Medium Risk Claim</button>
     </div>
 
     <div class="form-container">
