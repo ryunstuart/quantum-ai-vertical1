@@ -51,27 +51,28 @@
       color: #94a3b8;
     }
 
-    /* Very Compact Buttons - Single Row */
+    /* Smaller Compact Buttons */
     .examples {
       padding: 16px 40px;
       background: #1e2937;
       display: flex;
       flex-wrap: nowrap;
-      gap: 6px;
+      gap: 8px;
       justify-content: center;
       overflow-x: auto;
     }
     .example-btn {
-      padding: 8px 14px;
+      padding: 9px 16px;        /* Reduced padding */
       background: #334155;
       color: white;
       border: none;
       border-radius: 8px;
       cursor: pointer;
       font-weight: 600;
-      font-size: 13px;
+      font-size: 14px;          /* Text size unchanged */
       white-space: nowrap;
       flex-shrink: 0;
+      min-width: 130px;         /* Much narrower */
     }
     .example-btn:hover { background: #3b82f6; }
 
