@@ -6,6 +6,7 @@
   <title>Quantum Sentinel • AI Claims Intelligence</title>
   <link rel="icon" href="https://raw.githubusercontent.com/ryunstuart/quantum-ai-vertical1/main/quantum-shield.png">
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
     body { font-family: 'Inter', system-ui, sans-serif; background: #0f172a; color: #e2e8f0; margin:0; padding:20px; }
     .container { max-width: 1100px; margin: auto; }
     .header { background: linear-gradient(90deg, #1e3a8a, #3b82f6); padding: 20px; border-radius: 16px; display: flex; align-items: center; gap: 20px; margin-bottom: 30px; }
@@ -14,13 +15,15 @@
     .example-btn { padding: 14px 24px; background: #1e40af; border: none; border-radius: 12px; color: white; font-weight: 600; cursor: pointer; width: 320px; transition: all 0.3s; }
     .example-btn:hover { background: #3b82f6; transform: translateY(-3px); }
     .form-container { background: #1e2937; padding: 30px; border-radius: 16px; margin-bottom: 30px; }
-    input, select { width: 100%; padding: 12px; background: #334155; border: 1px solid #475569; border-radius: 8px; color: white; }
-    button#analyzeBtn { background: linear-gradient(90deg, #3b82f6, #60a5fa); padding: 16px; font-size: 18px; width: 100%; border: none; border-radius: 12px; cursor: pointer; font-weight: 700; }
+    .field { margin-bottom: 18px; }
+    label { display: block; margin-bottom: 6px; font-weight: 500; color: #cbd5e1; }
+    input, select { width: 100%; padding: 12px; background: #334155; border: 1px solid #475569; border-radius: 8px; color: white; font-size: 16px; }
+    button#analyzeBtn { background: linear-gradient(90deg, #3b82f6, #60a5fa); padding: 16px; font-size: 18px; width: 100%; border: none; border-radius: 12px; cursor: pointer; font-weight: 700; margin-top: 10px; }
     .result { display: none; background: #1e2937; padding: 25px; border-radius: 16px; margin-top: 20px; }
     .high { border-left: 6px solid #ef4444; }
     .medium { border-left: 6px solid #f59e0b; }
     .low { border-left: 6px solid #22c55e; }
-    .savings-box { background: #052e16; padding: 18px; border-radius: 12px; margin: 20px 0; }
+    .savings-box { background: #052e16; padding: 18px; border-radius: 12px; margin: 20px 0; color: #86efac; }
   </style>
 </head>
 <body>
@@ -41,9 +44,20 @@
     </div>
 
     <div class="form-container">
-      <!-- All your form fields here (member_age, billed_amount, etc.) — keep your existing ones -->
       <form id="claimForm">
-        <!-- ... your inputs ... -->
+        <div class="field"><label>Member Age</label><input type="number" id="member_age" value="47" required></div>
+        <div class="field"><label>Billed Amount ($)</label><input type="number" id="billed_amount" value="4285" required></div>
+        <div class="field"><label>Days Since Injury</label><input type="number" id="days_since_injury" value="1" required></div>
+        <div class="field"><label>Number of Procedures</label><input type="number" id="num_procedures" value="6" required></div>
+        <div class="field"><label>Procedure CPT Code</label><input type="text" id="procedure_cpt" value="99214" required></div>
+        <div class="field"><label>Diagnosis ICD Code</label><input type="text" id="diagnosis_icd" value="M54.5" required></div>
+        <div class="field"><label>Claim Type</label>
+          <select id="claim_type" required>
+            <option value="WorkersComp">Workers Comp</option>
+            <option value="Auto">Auto</option>
+            <option value="Health">Health</option>
+          </select>
+        </div>
         <button type="submit" id="analyzeBtn">🚀 Analyze Claim</button>
       </form>
     </div>
@@ -53,50 +67,41 @@
 
   <script>
     function loadExample(n) {
-      if (n===1) { /* high risk values */ document.getElementById('billed_amount').value=4285; document.getElementById('days_since_injury').value=1; document.getElementById('num_procedures').value=6; }
-      if (n===2) { /* normal */ document.getElementById('billed_amount').value=875; document.getElementById('days_since_injury').value=45; document.getElementById('num_procedures').value=1; }
-      if (n===3) { /* medium */ document.getElementById('billed_amount').value=2450; document.getElementById('days_since_injury').value=8; document.getElementById('num_procedures').value=5; }
+      if (n===1){document.getElementById('billed_amount').value=4285;document.getElementById('days_since_injury').value=1;document.getElementById('num_procedures').value=6;}
+      if (n===2){document.getElementById('billed_amount').value=875;document.getElementById('days_since_injury').value=45;document.getElementById('num_procedures').value=1;}
+      if (n===3){document.getElementById('billed_amount').value=2450;document.getElementById('days_since_injury').value=8;document.getElementById('num_procedures').value=5;}
     }
 
     document.getElementById('claimForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const resultDiv = document.getElementById('result');
       resultDiv.style.display = 'block';
-      resultDiv.innerHTML = '<p style="color:#94a3b8;">Analyzing claim...</p>';
+      resultDiv.innerHTML = '<p style="color:#94a3b8; text-align:center;">Analyzing...</p>';
 
       const formData = {
-        member_age: parseInt(document.getElementById('member_age').value) || 40,
-        billed_amount: parseFloat(document.getElementById('billed_amount').value) || 0,
-        days_since_injury: parseInt(document.getElementById('days_since_injury').value) || 0,
-        num_procedures: parseInt(document.getElementById('num_procedures').value) || 0,
-        procedure_cpt: document.getElementById('procedure_cpt').value || '99214',
-        diagnosis_icd: document.getElementById('diagnosis_icd').value || 'M54.5',
-        claim_type: document.getElementById('claim_type').value || 'WorkersComp'
+        member_age: parseInt(document.getElementById('member_age').value)||40,
+        billed_amount: parseFloat(document.getElementById('billed_amount').value)||0,
+        days_since_injury: parseInt(document.getElementById('days_since_injury').value)||0,
+        num_procedures: parseInt(document.getElementById('num_procedures').value)||0,
+        procedure_cpt: document.getElementById('procedure_cpt').value||'99214',
+        diagnosis_icd: document.getElementById('diagnosis_icd').value||'M54.5',
+        claim_type: document.getElementById('claim_type').value||'WorkersComp'
       };
 
       try {
-        const res = await fetch('/predict', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData)
-        });
+        const res = await fetch('/predict', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(formData) });
         const data = await res.json();
-
         if (data.error) throw new Error(data.error);
 
-        // Render result (your existing rendering code + savings box)
-        let html = `<div class="${data.claim_summary.risk_level.includes('HIGH') ? 'high' : data.claim_summary.risk_level.includes('MEDIUM') ? 'medium' : 'low'}">`;
+        let html = `<div class="${data.claim_summary.risk_level.includes('HIGH')?'high':data.claim_summary.risk_level.includes('MEDIUM')?'medium':'low'}">`;
         html += `<h2>${data.claim_summary.risk_level} • Score: ${data.claim_summary.fraud_score}</h2>`;
         html += `<p><strong>Action:</strong> ${data.claim_summary.recommended_action}</p>`;
-        html += `<ul>${data.claim_summary.fraud_reasons.map(r => `<li>⚠️ ${r}</li>`).join('')}</ul>`;
-        
-        html += `<div class="savings-box"><strong>💰 Savings Impact</strong><br>Incremental: $${data.savings_tracking.incremental_savings}<br>Shared Savings (8%): $${data.savings_tracking.shared_savings_8pct}</div>`;
-        
+        html += `<ul>${data.claim_summary.fraud_reasons.map(r=>`<li>⚠️ ${r}</li>`).join('')}</ul>`;
+        html += `<div class="savings-box"><strong>💰 Savings Impact</strong><br>Incremental: $${data.savings_tracking.incremental_savings}<br>Shared (8%): $${data.savings_tracking.shared_savings_8pct}</div>`;
         html += `<p>Predicted Cost: $${data.predictions.predicted_cost} | RTW: ${data.predictions.forecasted_rtw_days} days</p>`;
         resultDiv.innerHTML = html;
       } catch (err) {
-        console.error("Prediction error:", err);
-        resultDiv.innerHTML = `<p style="color:#ef4444;">❌ Error: ${err.message}<br><small>Check browser console (F12) for details.</small></p>`;
+        resultDiv.innerHTML = `<p style="color:#ef4444;">Error analyzing claim. Please try again.</p>`;
       }
     });
   </script>
