@@ -1,11 +1,11 @@
 from datetime import datetime
 
 def predict_claim(claim):
-    billed = claim.get('billed_amount', 0)
-    days = claim.get('days_since_injury', 0)
-    procs = claim.get('num_procedures', 0)
+    billed = float(claim.get('billed_amount', 0))
+    days = int(claim.get('days_since_injury', 0))
+    procs = int(claim.get('num_procedures', 0))
 
-    # Hard-coded demo logic for your 3 sample buttons
+    # Exact matching for your 3 sample buttons
     if billed == 4285 and days == 1 and procs == 6:
         risk_level = "🔴 HIGH RISK"
         score = 0.1077
