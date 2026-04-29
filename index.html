@@ -55,9 +55,10 @@
       padding: 15px 40px;
       background: #1e2937;
       display: flex;
+      flex-wrap: nowrap;
       gap: 8px;
       justify-content: center;
-      flex-wrap: wrap;   /* Allow wrap if needed, but they should fit */
+      overflow-x: auto;
     }
     .example-btn {
       padding: 9px 16px;
@@ -69,7 +70,8 @@
       font-weight: 600;
       font-size: 14px;
       white-space: nowrap;
-      min-width: 110px;
+      flex-shrink: 0;
+      min-width: 115px;
     }
     .example-btn:hover { background: #3b82f6; }
 
@@ -126,6 +128,7 @@
     </div>
 
     <div class="examples">
+      <strong style="color:#94a3b8; align-self:center; margin-right:10px; white-space:nowrap;">Try Sample Claims:</strong>
       <button class="example-btn" onclick="loadExample(1)">🔴 High Risk Claim</button>
       <button class="example-btn" onclick="loadExample(2)">🟢 Normal Claim</button>
       <button class="example-btn" onclick="loadExample(3)">🟠 Medium Risk Claim</button>
