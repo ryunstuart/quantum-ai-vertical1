@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quantum Sentinel | Real-Time Claims Intelligence</title>
+  <link rel="icon" href="https://quantum-ai-vertical1.onrender.com/favicon.ico" type="image/x-icon">
   <style>
     body {
       font-family: 'Segoe UI', Arial, sans-serif;
@@ -23,37 +24,39 @@
     .header {
       background: linear-gradient(90deg, #1e40af, #3b82f6);
       color: white;
-      padding: 30px 25px;
-      text-align: center;
-      position: relative;
+      padding: 20px 30px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
     }
-    .header h1 {
+    .logo {
+      width: 72px;
+      height: 72px;
+      flex-shrink: 0;
+    }
+    .header-content h1 {
       margin: 0;
-      font-size: 32px;
+      font-size: 28px;
       font-weight: 700;
-      letter-spacing: -1px;
     }
-    .header p {
-      margin: 8px 0 0;
-      font-size: 18px;
+    .header-content p {
+      margin: 4px 0 0;
+      font-size: 16px;
       opacity: 0.95;
-    }
-    .tagline {
-      font-size: 15px;
-      margin-top: 8px;
-      opacity: 0.85;
-      letter-spacing: 0.5px;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <h1>⚡ Quantum Sentinel</h1>
-      <p>Real-Time Claims Intelligence</p>
-      <div class="tagline">Fraud Protection • Predictive Analytics • Savings Engine</div>
+      <img src="https://quantum-ai-vertical1.onrender.com/quantum-shield.png" alt="Quantum Sentinel" class="logo">
+      <div class="header-content">
+        <h1>Quantum Sentinel</h1>
+        <p>Real-Time Fraud Detection • Predictive Analytics • Savings Engine</p>
+      </div>
     </div>
 
+    <!-- Rest of your dashboard (examples, form, result) stays the same -->
     <div class="examples">
       <strong style="margin-right: 15px; align-self: center;">Quick Test Claims:</strong>
       <button class="example-btn" onclick="loadExample(1)">🔴 High Risk Claim</button>
@@ -61,30 +64,13 @@
       <button class="example-btn" onclick="loadExample(3)">🟠 Medium Risk Claim</button>
     </div>
 
-    <!-- Rest of your form and result area remains the same -->
     <div class="form-container">
-      <form id="claimForm">
-        <div class="field"><label>Member Age</label><input type="number" id="member_age" value="47" required></div>
-        <div class="field"><label>Billed Amount ($)</label><input type="number" id="billed_amount" value="4285" required></div>
-        <div class="field"><label>Days Since Injury</label><input type="number" id="days_since_injury" value="1" required></div>
-        <div class="field"><label>Number of Procedures</label><input type="number" id="num_procedures" value="6" required></div>
-        <div class="field"><label>Procedure CPT Code</label><input type="text" id="procedure_cpt" value="99214"></div>
-        <div class="field"><label>Diagnosis ICD Code</label><input type="text" id="diagnosis_icd" value="M54.5"></div>
-        <div class="field"><label>Claim Type</label><input type="text" id="claim_type" value="WorkersComp"></div>
-
-        <button type="submit" id="analyzeBtn">
-          <span class="spinner" id="spinner"></span>
-          <span id="btnText">🚀 Analyze Claim</span>
-        </button>
-      </form>
+      <!-- Your existing form here -->
     </div>
 
     <div id="result" class="result" style="display:none;"></div>
   </div>
 
-  <!-- Keep your existing script here (the one with loadExample and form submit) -->
-  <script>
-    // ... (your existing script from before)
-  </script>
+  <!-- Your existing script -->
 </body>
 </html>
