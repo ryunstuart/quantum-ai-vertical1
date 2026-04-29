@@ -1,10 +1,14 @@
 from fastapi import FastAPI
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from predict import predict_claim
 from pydantic import BaseModel
 import os
 
 app = FastAPI(title="Quantum Sentinel")
+
+# Mount the root directory as static files
+app.mount("/", StaticFiles(directory=".", html=True), name="static")
 
 class ClaimInput(BaseModel):
     member_age: int
@@ -15,24 +19,11 @@ class ClaimInput(BaseModel):
     diagnosis_icd: str = "M54.5"
     claim_type: str = "WorkersComp"
 
-@app.get("/")
-async def serve_dashboard():
-    return FileResponse("index.html")
-
 @app.post("/predict")
 async def predict(claim: ClaimInput):
-    try:
-        return predict_claim(claim.dict())
-    except Exception as e:
-        return JSONResponse(status_code=500, content={"error": str(e)})
+    return predict_claim(claim.dict())
 
-# Simple static file serving
-@app.get("/quantum-shield.png")
-async def serve_logo():
-    if os.path.exists("quantum-shield.png"):
-        return FileResponse("quantum-shield.png")
-    return {"error": "Logo not found"}
-
+# Health check
 @app.get("/health")
 async def health():
     return {"status": "ok"}
