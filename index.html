@@ -76,7 +76,7 @@
     .example-btn:hover { background: #3b82f6; }
 
     .form-container { padding: 40px; background: #0f172a; }
-    .field { margin-bottom: 20px; }
+    .field { margin-bottom: 20px; position: relative; }
     label { display: block; margin-bottom: 8px; font-weight: 600; color: #94a3b8; }
     input {
       width: 100%;
@@ -86,6 +86,12 @@
       border-radius: 12px;
       color: white;
       font-size: 16px;
+    }
+    .error {
+      color: #ef4444;
+      font-size: 13px;
+      margin-top: 4px;
+      display: none;
     }
     button {
       width: 100%;
@@ -97,6 +103,10 @@
       border: none;
       border-radius: 12px;
       cursor: pointer;
+    }
+    button:disabled {
+      background: #475569;
+      cursor: not-allowed;
     }
 
     .result {
@@ -136,13 +146,41 @@
 
     <div class="form-container">
       <form id="claimForm">
-        <div class="field"><label>Member Age</label><input type="number" id="member_age" value="47" required></div>
-        <div class="field"><label>Billed Amount ($)</label><input type="number" id="billed_amount" value="4285" required></div>
-        <div class="field"><label>Days Since Injury</label><input type="number" id="days_since_injury" value="1" required></div>
-        <div class="field"><label>Number of Procedures</label><input type="number" id="num_procedures" value="6" required></div>
-        <div class="field"><label>Procedure CPT Code</label><input type="text" id="procedure_cpt" value="99214"></div>
-        <div class="field"><label>Diagnosis ICD Code</label><input type="text" id="diagnosis_icd" value="M54.5"></div>
-        <div class="field"><label>Claim Type</label><input type="text" id="claim_type" value="WorkersComp"></div>
+        <div class="field">
+          <label>Member Age</label>
+          <input type="number" id="member_age" value="47" required min="1" max="120">
+          <div class="error" id="error-age">Age must be between 1 and 120</div>
+        </div>
+        <div class="field">
+          <label>Billed Amount ($)</label>
+          <input type="number" id="billed_amount" value="4285" required min="1">
+          <div class="error" id="error-billed">Billed amount must be greater than 0</div>
+        </div>
+        <div class="field">
+          <label>Days Since Injury</label>
+          <input type="number" id="days_since_injury" value="1" required min="0" max="365">
+          <div class="error" id="error-days">Days must be between 0 and 365</div>
+        </div>
+        <div class="field">
+          <label>Number of Procedures</label>
+          <input type="number" id="num_procedures" value="6" required min="1">
+          <div class="error" id="error-procs">Number of procedures must be at least 1</div>
+        </div>
+        <div class="field">
+          <label>Procedure CPT Code</label>
+          <input type="text" id="procedure_cpt" value="99214" required>
+          <div class="error" id="error-cpt">Procedure code is required</div>
+        </div>
+        <div class="field">
+          <label>Diagnosis ICD Code</label>
+          <input type="text" id="diagnosis_icd" value="M54.5" required>
+          <div class="error" id="error-icd">Diagnosis code is required</div>
+        </div>
+        <div class="field">
+          <label>Claim Type</label>
+          <input type="text" id="claim_type" value="WorkersComp" required>
+          <div class="error" id="error-type">Claim type is required</div>
+        </div>
 
         <button type="submit" id="analyzeBtn">🚀 Analyze Claim</button>
       </form>
@@ -152,6 +190,7 @@
   </div>
 
   <script>
+    // Sample buttons
     function loadExample(n) {
       if (n === 1) {
         document.getElementById('billed_amount').value = 4285;
@@ -168,8 +207,58 @@
       }
     }
 
+    // Client-side validation
+    function validateForm() {
+      let isValid = true;
+      const errors = document.querySelectorAll('.error');
+
+      errors.forEach(e => e.style.display = 'none');
+
+      // Age
+      const age = parseInt(document.getElementById('member_age').value);
+      if (isNaN(age) || age < 1 || age > 120) {
+        document.getElementById('error-age').style.display = 'block';
+        isValid = false;
+      }
+
+      // Billed Amount
+      const billed = parseFloat(document.getElementById('billed_amount').value);
+      if (isNaN(billed) || billed <= 0) {
+        document.getElementById('error-billed').style.display = 'block';
+        isValid = false;
+      }
+
+      // Days Since Injury
+      const days = parseInt(document.getElementById('days_since_injury').value);
+      if (isNaN(days) || days < 0 || days > 365) {
+        document.getElementById('error-days').style.display = 'block';
+        isValid = false;
+      }
+
+      // Number of Procedures
+      const procs = parseInt(document.getElementById('num_procedures').value);
+      if (isNaN(procs) || procs < 1) {
+        document.getElementById('error-procs').style.display = 'block';
+        isValid = false;
+      }
+
+      // Required fields
+      ['procedure_cpt', 'diagnosis_icd', 'claim_type'].forEach(id => {
+        if (!document.getElementById(id).value.trim()) {
+          document.getElementById('error-' + id.split('_')[1]).style.display = 'block';
+          isValid = false;
+        }
+      });
+
+      return isValid;
+    }
+
+    // Form submit with validation
     document.getElementById('claimForm').addEventListener('submit', async (e) => {
       e.preventDefault();
+
+      if (!validateForm()) return;
+
       const btn = document.getElementById('analyzeBtn');
       btn.textContent = 'Analyzing...';
       btn.disabled = true;
