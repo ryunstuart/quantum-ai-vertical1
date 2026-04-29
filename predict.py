@@ -16,15 +16,19 @@ def get_fraud_reasons(claim: dict):
     days = claim.get('days_since_injury', 0)
     procs = claim.get('num_procedures', 0)
 
-    if billed > 3500:
+    if billed > 4000:
         reasons.append(f"Very high billed amount (${billed:,.0f})")
-    elif billed > 2000:
+    elif billed > 2300:
         reasons.append(f"High billed amount (${billed:,.0f})")
 
-    if days < 10:
+    if days < 5:
+        reasons.append(f"Treatment started extremely soon after injury (only {days} days)")
+    elif days < 10:
         reasons.append(f"Treatment started very soon after injury ({days} days)")
 
-    if procs >= 5:
+    if procs > 6:
+        reasons.append(f"Unusually high number of procedures on day 1 ({procs})")
+    elif procs >= 5:
         reasons.append(f"Multiple procedures on day 1 ({procs})")
 
     if not reasons:
@@ -43,7 +47,7 @@ def predict_claim(claim: dict):
 
     red_flag_count = len([r for r in reasons if "No major" not in r])
 
-    # FINAL SIMPLE RISK LOGIC
+    # FINAL TUNED RISK LOGIC
     if red_flag_count >= 3:
         risk_level = "🔴 HIGH RISK"
         action = "HOLD PAYMENT + Send for Investigation"
