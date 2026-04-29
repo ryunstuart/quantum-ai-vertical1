@@ -4,11 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quantum Sentinel - AI Claims Intelligence</title>
-  
-  <!-- Favicon -->
   <link rel="icon" href="https://raw.githubusercontent.com/ryunstuart/quantum-ai-vertical1/main/quantum-shield.png" type="image/png">
-  <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/ryunstuart/quantum-ai-vertical1/main/quantum-shield.png">
-
+  
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
     
@@ -29,17 +26,17 @@
     }
     .header {
       background: linear-gradient(to right, #0f172a, #1e40af);
-      padding: 28px 40px;
+      padding: 25px 40px;
       display: flex;
       align-items: center;
       gap: 20px;
     }
     .logo {
-      width: 68px;
-      height: 68px;
+      width: 78px;          /* Larger logo */
+      height: 78px;
       flex-shrink: 0;
-      border-radius: 12px;
-      box-shadow: 0 0 25px rgba(96, 165, 250, 0.6);
+      border-radius: 14px;
+      box-shadow: 0 0 30px rgba(96, 165, 250, 0.7);
     }
     .header-content h1 {
       margin: 0;
@@ -50,30 +47,32 @@
     .header-content h1 span { color: #60a5fa; }
     .header-content p {
       margin: 4px 0 0;
-      font-size: 18px;
+      font-size: 17.5px;
       color: #94a3b8;
     }
 
+    /* Compact Horizontal Buttons */
     .examples {
-      padding: 20px 40px;
+      padding: 18px 40px;
       background: #1e2937;
       display: flex;
       flex-wrap: nowrap;
-      gap: 10px;
+      gap: 8px;
       justify-content: center;
       overflow-x: auto;
     }
     .example-btn {
-      padding: 10px 18px;
+      padding: 10px 20px;
       background: #334155;
       color: white;
       border: none;
       border-radius: 10px;
       cursor: pointer;
       font-weight: 600;
-      font-size: 15px;
+      font-size: 14.5px;
       white-space: nowrap;
       flex-shrink: 0;
+      min-width: 160px;
     }
     .example-btn:hover { background: #3b82f6; }
 
@@ -82,7 +81,7 @@
     label { display: block; margin-bottom: 8px; font-weight: 600; color: #94a3b8; }
     input {
       width: 100%;
-      padding: 16px;
+      padding: 15px;
       background: #1e2937;
       border: 1px solid #475569;
       border-radius: 12px;
@@ -91,7 +90,7 @@
     }
     button {
       width: 100%;
-      padding: 18px;
+      padding: 17px;
       background: linear-gradient(90deg, #3b82f6, #60a5fa);
       color: white;
       font-size: 18px;
@@ -119,7 +118,6 @@
   </style>
 </head>
 <body>
-  <!-- Rest of your HTML remains the same -->
   <div class="container">
     <div class="header">
       <img src="https://raw.githubusercontent.com/ryunstuart/quantum-ai-vertical1/main/quantum-shield.png" 
@@ -154,7 +152,6 @@
   </div>
 
   <script>
-    // Your existing script (loadExample + form submit) goes here
     function loadExample(n) {
       if (n === 1) {
         document.getElementById('billed_amount').value = 4285;
