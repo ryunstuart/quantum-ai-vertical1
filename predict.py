@@ -21,33 +21,40 @@ def predict_claim(claim: dict):
     days = claim.get('days_since_injury', 0)
     procs = claim.get('num_procedures', 0)
 
-    # Hard-tuned for your 3 demo buttons
-    if billed > 4000 and days < 5 and procs >= 5:
+    reasons = []
+    if billed > 3800:
+        reasons.append(f"Very high billed amount (${billed:,.0f})")
+    elif billed > 2200:
+        reasons.append(f"High billed amount (${billed:,.0f})")
+
+    if days == 1:
+        reasons.append("Treatment started extremely soon after injury (only 1 day)")
+    elif days < 10:
+        reasons.append(f"Treatment started soon after injury ({days} days)")
+
+    if procs >= 5:
+        reasons.append(f"Multiple procedures on day 1 ({procs})")
+
+    if not reasons:
+        reasons.append("No major red flags detected")
+
+    red_flag_count = len([r for r in reasons if "No major" not in r])
+
+    if red_flag_count >= 3:
         risk_level = "🔴 HIGH RISK"
         action = "HOLD PAYMENT + Send for Investigation"
-        reasons = [
-            f"Very high billed amount (${billed:,.0f})",
-            f"Treatment started extremely soon after injury (only {days} day)",
-            f"Unusually high number of procedures on day 1 ({procs})"
-        ]
-    elif billed > 2300 and days < 12 and procs >= 4:
+    elif red_flag_count >= 2:
         risk_level = "🟠 MEDIUM RISK"
         action = "Request additional documentation"
-        reasons = [
-            f"High billed amount (${billed:,.0f})",
-            f"Treatment started soon after injury ({days} days)",
-            f"Multiple procedures on day 1 ({procs})"
-        ]
     else:
         risk_level = "🟢 LOW RISK"
         action = "Process normally"
-        reasons = ["No major red flags detected"]
 
     result = {
         "claim_summary": {
             "fraud_score": round(fraud_prob, 4),
             "risk_level": risk_level,
-            "red_flag_count": len(reasons) if reasons[0] != "No major red flags detected" else 0,
+            "red_flag_count": red_flag_count,
             "fraud_reasons": reasons,
             "recommended_action": action
         },
@@ -59,12 +66,12 @@ def predict_claim(claim: dict):
         },
         "metadata": {
             "latency_ms": 45,
-            "model_version": "v1.5-demo-fixed",
+            "model_version": "v1.5",
             "processed_at": "now"
         }
     }
 
-    # Savings Tracking
+    # Savings Engine
     predicted = result["predictions"]["predicted_cost"]
     incremental = max(0, billed - predicted)
     result["savings_tracking"] = {
