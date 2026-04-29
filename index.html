@@ -9,21 +9,24 @@
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
     body { font-family: 'Inter', system-ui, sans-serif; background: #0f172a; color: #e2e8f0; margin:0; padding:20px; }
     .container { max-width: 1100px; margin: auto; }
-    .header { background: linear-gradient(90deg, #1e3a8a, #3b82f6); padding: 20px; border-radius: 16px; display: flex; align-items: center; gap: 20px; margin-bottom: 30px; }
-    .logo { width: 85px; height: 85px; object-fit: contain; }
+    .header { background: linear-gradient(90deg, #1e3a8a, #3b82f6); padding: 25px; border-radius: 16px; display: flex; align-items: center; gap: 20px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(59,130,246,0.3); }
+    .logo { width: 92px; height: 92px; object-fit: contain; filter: drop-shadow(0 0 12px #93c5fd); }
     .examples { display: flex; flex-direction: column; gap: 12px; align-items: center; margin-bottom: 30px; }
     .example-btn { padding: 14px 24px; background: #1e40af; border: none; border-radius: 12px; color: white; font-weight: 600; cursor: pointer; width: 320px; transition: all 0.3s; }
-    .example-btn:hover { background: #3b82f6; transform: translateY(-3px); }
+    .example-btn:hover { background: #3b82f6; transform: translateY(-4px); box-shadow: 0 12px 25px rgba(59,130,246,0.4); }
     .form-container { background: #1e2937; padding: 30px; border-radius: 16px; margin-bottom: 30px; }
     .field { margin-bottom: 18px; }
     label { display: block; margin-bottom: 6px; font-weight: 500; color: #cbd5e1; }
     input, select { width: 100%; padding: 12px; background: #334155; border: 1px solid #475569; border-radius: 8px; color: white; font-size: 16px; }
-    button#analyzeBtn { background: linear-gradient(90deg, #3b82f6, #60a5fa); padding: 16px; font-size: 18px; width: 100%; border: none; border-radius: 12px; cursor: pointer; font-weight: 700; margin-top: 10px; }
-    .result { display: none; background: #1e2937; padding: 25px; border-radius: 16px; margin-top: 20px; }
+    button#analyzeBtn { background: linear-gradient(90deg, #3b82f6, #60a5fa); padding: 16px; font-size: 18px; width: 100%; border: none; border-radius: 12px; cursor: pointer; font-weight: 700; margin-top: 10px; transition: all 0.3s; }
+    button#analyzeBtn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(59,130,246,0.5); }
+    .result { display: none; background: #1e2937; padding: 30px; border-radius: 16px; margin-top: 20px; animation: fadeIn 0.5s ease; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
     .high { border-left: 6px solid #ef4444; }
     .medium { border-left: 6px solid #f59e0b; }
     .low { border-left: 6px solid #22c55e; }
-    .savings-box { background: #052e16; padding: 18px; border-radius: 12px; margin: 20px 0; color: #86efac; }
+    .savings-box { background: #052e16; padding: 20px; border-radius: 12px; margin: 25px 0; animation: glow 2s infinite alternate; }
+    @keyframes glow { from { box-shadow: 0 0 15px #4ade80; } to { box-shadow: 0 0 30px #4ade80; } }
   </style>
 </head>
 <body>
@@ -31,7 +34,7 @@
     <div class="header">
       <img src="https://raw.githubusercontent.com/ryunstuart/quantum-ai-vertical1/main/quantum-shield.png" alt="Quantum Shield" class="logo">
       <div>
-        <h1 style="margin:0; font-size:2.2em;">Quantum<span style="color:#93c5fd;">Sentinel</span></h1>
+        <h1 style="margin:0; font-size:2.4em;">Quantum<span style="color:#93c5fd;">Sentinel</span></h1>
         <p style="margin:5px 0 0; opacity:0.9;">Real-Time AI Claims Intelligence</p>
       </div>
     </div>
@@ -67,43 +70,19 @@
 
   <script>
     function loadExample(n) {
-      if (n===1){document.getElementById('billed_amount').value=4285;document.getElementById('days_since_injury').value=1;document.getElementById('num_procedures').value=6;}
-      if (n===2){document.getElementById('billed_amount').value=875;document.getElementById('days_since_injury').value=45;document.getElementById('num_procedures').value=1;}
-      if (n===3){document.getElementById('billed_amount').value=2450;document.getElementById('days_since_injury').value=8;document.getElementById('num_procedures').value=5;}
+      if (n===1) { document.getElementById('billed_amount').value=4285; document.getElementById('days_since_injury').value=1; document.getElementById('num_procedures').value=6; }
+      if (n===2) { document.getElementById('billed_amount').value=875; document.getElementById('days_since_injury').value=45; document.getElementById('num_procedures').value=1; }
+      if (n===3) { document.getElementById('billed_amount').value=2450; document.getElementById('days_since_injury').value=8; document.getElementById('num_procedures').value=5; }
     }
 
     document.getElementById('claimForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const resultDiv = document.getElementById('result');
       resultDiv.style.display = 'block';
-      resultDiv.innerHTML = '<p style="color:#94a3b8; text-align:center;">Analyzing...</p>';
+      resultDiv.innerHTML = '<p style="color:#94a3b8; text-align:center;">Analyzing with Quantum Sentinel...</p>';
 
       const formData = {
-        member_age: parseInt(document.getElementById('member_age').value)||40,
-        billed_amount: parseFloat(document.getElementById('billed_amount').value)||0,
-        days_since_injury: parseInt(document.getElementById('days_since_injury').value)||0,
-        num_procedures: parseInt(document.getElementById('num_procedures').value)||0,
-        procedure_cpt: document.getElementById('procedure_cpt').value||'99214',
-        diagnosis_icd: document.getElementById('diagnosis_icd').value||'M54.5',
-        claim_type: document.getElementById('claim_type').value||'WorkersComp'
-      };
-
-      try {
-        const res = await fetch('/predict', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(formData) });
-        const data = await res.json();
-        if (data.error) throw new Error(data.error);
-
-        let html = `<div class="${data.claim_summary.risk_level.includes('HIGH')?'high':data.claim_summary.risk_level.includes('MEDIUM')?'medium':'low'}">`;
-        html += `<h2>${data.claim_summary.risk_level} • Score: ${data.claim_summary.fraud_score}</h2>`;
-        html += `<p><strong>Action:</strong> ${data.claim_summary.recommended_action}</p>`;
-        html += `<ul>${data.claim_summary.fraud_reasons.map(r=>`<li>⚠️ ${r}</li>`).join('')}</ul>`;
-        html += `<div class="savings-box"><strong>💰 Savings Impact</strong><br>Incremental: $${data.savings_tracking.incremental_savings}<br>Shared (8%): $${data.savings_tracking.shared_savings_8pct}</div>`;
-        html += `<p>Predicted Cost: $${data.predictions.predicted_cost} | RTW: ${data.predictions.forecasted_rtw_days} days</p>`;
-        resultDiv.innerHTML = html;
-      } catch (err) {
-        resultDiv.innerHTML = `<p style="color:#ef4444;">Error analyzing claim. Please try again.</p>`;
-      }
-    });
-  </script>
-</body>
-</html>
+        member_age: parseInt(document.getElementById('member_age').value) || 40,
+        billed_amount: parseFloat(document.getElementById('billed_amount').value) || 0,
+        days_since_injury: parseInt(document.getElementById('days_since_injury').value) || 0,
+        num_procedures: parseInt
