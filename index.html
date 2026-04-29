@@ -86,15 +86,11 @@
       box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.2);
     }
 
-    /* Analyze Button - Bottom Right */
-    .analyze-btn-container {
-      grid-column: 2 / -1;
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 10px;
-    }
+    /* Centered Analyze Button - Full Width Below Form */
     button {
-      padding: 18px 42px;
+      display: block;
+      margin: 32px auto 0;
+      padding: 19px 60px;
       background: linear-gradient(90deg, #2563eb, #3b82f6);
       color: white;
       font-size: 18px;
@@ -140,12 +136,9 @@
           <div class="field"><label>Diagnosis ICD Code</label><input type="text" id="diagnosis_icd" value="M54.5"></div>
           
           <div class="field"><label>Claim Type</label><input type="text" id="claim_type" value="WorkersComp"></div>
-          
-          <!-- Analyze Button in bottom right -->
-          <div class="analyze-btn-container">
-            <button type="submit" id="analyzeBtn">🚀 Analyze Claim</button>
-          </div>
         </div>
+
+        <button type="submit" id="analyzeBtn">🚀 Analyze Claim</button>
       </form>
     </div>
 
@@ -153,7 +146,6 @@
   </div>
 
   <script>
-    // Example buttons
     function loadExample(n) {
       if (n === 1) {
         document.getElementById('billed_amount').value = 4285;
@@ -199,12 +191,14 @@
           <h2>${result.claim_summary.risk_level} • Score: ${result.claim_summary.fraud_score}</h2>
           <p><strong>Recommended Action:</strong> ${result.claim_summary.recommended_action}</p>
           <ul>${result.claim_summary.fraud_reasons.map(r => `<li>⚠️ ${r}</li>`).join('')}</ul>
+
           <div class="savings-box" style="background:linear-gradient(135deg,#052e16,#166534);border:2px solid #4ade80;border-radius:16px;padding:28px;margin:30px 0;text-align:center;">
             <h3>💰 Savings Impact</h3>
             <p>Incremental Savings: <strong>$${savings.incremental_savings}</strong></p>
             <p>Shared Savings (8%): <strong>$${savings.shared_savings}</strong></p>
           </div>
-          <hr style="border-color:#475569;margin:28px 0;">
+
+          <hr style="border-color:#475569; margin:28px 0;">
           <p><strong>Predicted Total Cost:</strong> $${result.predictions.predicted_cost}</p>
           <p><strong>Forecasted RTW:</strong> ${result.predictions.forecasted_rtw_days} days</p>
           <p><strong>Provider Score:</strong> ${result.predictions.provider_score}</p>
@@ -212,7 +206,7 @@
         `;
         document.getElementById('result').style.display = 'block';
       } catch (err) {
-        document.getElementById('result').innerHTML = `<p style="color:#ef4444;text-align:center;">Error analyzing claim. Please try again.</p>`;
+        document.getElementById('result').innerHTML = `<p style="color:#ef4444; text-align:center;">Error analyzing claim. Please try again.</p>`;
         document.getElementById('result').style.display = 'block';
       }
 
