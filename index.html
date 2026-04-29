@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quantum Sentinel | Real-Time Claims Intelligence</title>
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/quantum-shield.png" type="image/png">
   <style>
     body {
       font-family: 'Segoe UI', Arial, sans-serif;
@@ -45,214 +45,22 @@
       font-size: 17px;
       opacity: 0.95;
     }
-    .examples {
-      padding: 15px 30px;
-      background: #f1f5f9;
-      display: flex;
-      flex-wrap: nowrap;
-      gap: 12px;
-      overflow-x: auto;
-      justify-content: center;
-    }
-    .example-btn {
-      padding: 10px 20px;
-      background: white;
-      border: 2px solid #1e40af;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 15px;
-      font-weight: 600;
-      color: #1e40af;
-      white-space: nowrap;
-    }
-    .example-btn:hover { background: #1e40af; color: white; }
-    .form-container {
-      padding: 30px;
-    }
-    .field {
-      margin-bottom: 16px;
-    }
-    label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: 600;
-      color: #334155;
-    }
-    input {
-      width: 100%;
-      padding: 14px;
-      border: 2px solid #e2e8f0;
-      border-radius: 10px;
-      font-size: 16px;
-    }
-    button {
-      width: 100%;
-      padding: 16px;
-      background: #1e40af;
-      color: white;
-      font-size: 18px;
-      font-weight: bold;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      margin-top: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-    button:hover { background: #2563eb; }
-    button:disabled { background: #64748b; cursor: not-allowed; }
-
-    .spinner {
-      display: none;
-      width: 20px;
-      height: 20px;
-      border: 3px solid #ffffff40;
-      border-top: 3px solid white;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    .result {
-      margin: 20px;
-      padding: 25px;
-      background: #f8fafc;
-      border-radius: 12px;
-      border-left: 8px solid #1e40af;
-    }
-    .high { border-left-color: #ef4444; }
-    .medium { border-left-color: #f59e0b; }
-
-    .savings-box {
-      background: #ecfdf5;
-      border: 2px solid #10b981;
-      border-radius: 10px;
-      padding: 18px;
-      margin: 20px 0;
-      text-align: center;
-    }
+    /* Add the rest of your styles and body content here */
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <img src="https://quantum-ai-vertical1.onrender.com/quantum-shield.png" alt="Quantum Sentinel" class="logo">
+      <img src="/quantum-shield.png" alt="Quantum Sentinel" class="logo">
       <div class="header-content">
         <h1>Quantum Sentinel</h1>
         <p>Real-Time Fraud Detection • Predictive Analytics • Savings Engine</p>
       </div>
     </div>
 
-    <div class="examples">
-      <strong style="margin-right: 15px; align-self: center;">Quick Test Claims:</strong>
-      <button class="example-btn" onclick="loadExample(1)">🔴 High Risk Claim</button>
-      <button class="example-btn" onclick="loadExample(2)">🟢 Normal Claim</button>
-      <button class="example-btn" onclick="loadExample(3)">🟠 Medium Risk Claim</button>
-    </div>
+    <!-- Your existing examples, form, and result sections go here -->
+    <!-- Paste the rest of your dashboard code from previous versions -->
 
-    <div class="form-container">
-      <form id="claimForm">
-        <div class="field"><label>Member Age</label><input type="number" id="member_age" value="47" required></div>
-        <div class="field"><label>Billed Amount ($)</label><input type="number" id="billed_amount" value="4285" required></div>
-        <div class="field"><label>Days Since Injury</label><input type="number" id="days_since_injury" value="1" required></div>
-        <div class="field"><label>Number of Procedures</label><input type="number" id="num_procedures" value="6" required></div>
-        <div class="field"><label>Procedure CPT Code</label><input type="text" id="procedure_cpt" value="99214"></div>
-        <div class="field"><label>Diagnosis ICD Code</label><input type="text" id="diagnosis_icd" value="M54.5"></div>
-        <div class="field"><label>Claim Type</label><input type="text" id="claim_type" value="WorkersComp"></div>
-
-        <button type="submit" id="analyzeBtn">
-          <span class="spinner" id="spinner"></span>
-          <span id="btnText">🚀 Analyze Claim</span>
-        </button>
-      </form>
-    </div>
-
-    <div id="result" class="result" style="display:none;"></div>
   </div>
-
-  <script>
-    function loadExample(n) {
-      if (n === 1) {
-        document.getElementById('billed_amount').value = 4285;
-        document.getElementById('days_since_injury').value = 1;
-        document.getElementById('num_procedures').value = 6;
-      } else if (n === 2) {
-        document.getElementById('billed_amount').value = 875;
-        document.getElementById('days_since_injury').value = 45;
-        document.getElementById('num_procedures').value = 1;
-      } else if (n === 3) {
-        document.getElementById('billed_amount').value = 2450;
-        document.getElementById('days_since_injury').value = 8;
-        document.getElementById('num_procedures').value = 5;
-      }
-    }
-
-    const form = document.getElementById('claimForm');
-    const button = document.getElementById('analyzeBtn');
-    const btnText = document.getElementById('btnText');
-    const spinner = document.getElementById('spinner');
-    const resultDiv = document.getElementById('result');
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      btnText.style.display = 'none';
-      spinner.style.display = 'inline-block';
-      button.disabled = true;
-
-      const data = {
-        member_age: parseInt(document.getElementById('member_age').value),
-        billed_amount: parseFloat(document.getElementById('billed_amount').value),
-        days_since_injury: parseInt(document.getElementById('days_since_injury').value),
-        num_procedures: parseInt(document.getElementById('num_procedures').value),
-        procedure_cpt: document.getElementById('procedure_cpt').value,
-        diagnosis_icd: document.getElementById('diagnosis_icd').value,
-        claim_type: document.getElementById('claim_type').value
-      };
-
-      try {
-        const res = await fetch('/predict', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
-        const result = await res.json();
-
-        let riskClass = '';
-        if (result.claim_summary.risk_level.includes('HIGH')) riskClass = 'high';
-        else if (result.claim_summary.risk_level.includes('MEDIUM')) riskClass = 'medium';
-
-        const savings = result.savings_tracking || {};
-
-        resultDiv.className = `result ${riskClass}`;
-        resultDiv.innerHTML = `
-          <h2>${result.claim_summary.risk_level} • Score: ${result.claim_summary.fraud_score}</h2>
-          <p><strong>Recommended Action:</strong> ${result.claim_summary.recommended_action}</p>
-          <ul>${result.claim_summary.fraud_reasons.map(r => `<li>⚠️ ${r}</li>`).join('')}</ul>
-          
-          <div class="savings-box">
-            <h3>💰 Savings Impact</h3>
-            <p><strong>Incremental Savings:</strong> $${savings.incremental_savings || 0}</p>
-            <p><strong>Shared Savings (8%):</strong> $${savings.shared_savings || 0}</p>
-          </div>
-
-          <hr>
-          <p><strong>Predicted Total Cost:</strong> $${result.predictions.predicted_cost}</p>
-          <p><strong>Forecasted RTW:</strong> ${result.predictions.forecasted_rtw_days} days</p>
-          <p><strong>Provider Score:</strong> ${result.predictions.provider_score}</p>
-          <p><strong>Steer Recommendation:</strong> ${result.predictions.steer_recommendation}</p>
-        `;
-        resultDiv.style.display = 'block';
-      } catch (error) {
-        resultDiv.innerHTML = `<p style="color:red;">Error analyzing claim. Please try again.</p>`;
-        resultDiv.style.display = 'block';
-      }
-
-      btnText.style.display = 'inline';
-      spinner.style.display = 'none';
-      button.disabled = false;
-    });
-  </script>
 </body>
 </html>
