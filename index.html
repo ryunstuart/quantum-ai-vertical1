@@ -17,83 +17,82 @@
     .container {
       max-width: 1100px;
       margin: auto;
-      background: rgba(15, 23, 42, 0.98);
+      background: rgba(15, 23, 42, 0.95);
       border-radius: 20px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
       overflow: hidden;
     }
     .header {
       background: linear-gradient(to right, #0f172a, #1e40af);
-      padding: 25px 40px;
+      padding: 28px 40px;
       display: flex;
       align-items: center;
-      gap: 18px;
+      gap: 20px;
     }
     .logo {
-      width: 58px;
-      height: 58px;
+      width: 68px;
+      height: 68px;
       flex-shrink: 0;
       border-radius: 12px;
-      box-shadow: 0 0 20px rgba(96, 165, 250, 0.5);
+      box-shadow: 0 0 25px rgba(96, 165, 250, 0.6);
     }
     .header-content h1 {
       margin: 0;
-      font-size: 36px;
+      font-size: 38px;
       font-weight: 700;
       letter-spacing: -1px;
     }
     .header-content h1 span { color: #60a5fa; }
     .header-content p {
       margin: 4px 0 0;
-      font-size: 17px;
+      font-size: 18px;
       color: #94a3b8;
     }
 
-    /* Compact Horizontal Buttons */
     .examples {
-      padding: 18px 40px;
+      padding: 20px 40px;
       background: #1e2937;
       display: flex;
       flex-wrap: nowrap;
-      gap: 8px;
+      gap: 10px;
       justify-content: center;
       overflow-x: auto;
     }
     .example-btn {
-      padding: 9px 16px;
+      padding: 10px 18px;
       background: #334155;
       color: white;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
       font-weight: 600;
-      font-size: 14.5px;
+      font-size: 15px;
       white-space: nowrap;
       flex-shrink: 0;
     }
     .example-btn:hover { background: #3b82f6; }
 
-    .form-container { padding: 35px 40px; background: #0f172a; }
-    .field { margin-bottom: 18px; }
-    label { display: block; margin-bottom: 6px; font-weight: 600; color: #94a3b8; }
+    .form-container { padding: 40px; background: #0f172a; }
+    .field { margin-bottom: 20px; }
+    label { display: block; margin-bottom: 8px; font-weight: 600; color: #94a3b8; }
     input {
       width: 100%;
-      padding: 14px;
+      padding: 16px;
       background: #1e2937;
       border: 1px solid #475569;
-      border-radius: 10px;
+      border-radius: 12px;
       color: white;
       font-size: 16px;
     }
     button {
       width: 100%;
-      padding: 16px;
+      padding: 18px;
       background: linear-gradient(90deg, #3b82f6, #60a5fa);
       color: white;
-      font-size: 17px;
+      font-size: 18px;
       font-weight: 700;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       cursor: pointer;
     }
 
@@ -117,7 +116,8 @@
 <body>
   <div class="container">
     <div class="header">
-      <img src="/quantum-shield.png" alt="Quantum Sentinel" class="logo">
+      <img src="https://raw.githubusercontent.com/ryunstuart/quantum-ai-vertical1/main/quantum-shield.png" 
+           alt="Quantum Sentinel" class="logo">
       <div class="header-content">
         <h1>Quantum<span>Sentinel</span></h1>
         <p>Real-Time Fraud Detection • Predictive Analytics • Savings Engine</p>
@@ -149,9 +149,19 @@
 
   <script>
     function loadExample(n) {
-      if (n === 1) { document.getElementById('billed_amount').value = 4285; document.getElementById('days_since_injury').value = 1; document.getElementById('num_procedures').value = 6; }
-      else if (n === 2) { document.getElementById('billed_amount').value = 875; document.getElementById('days_since_injury').value = 45; document.getElementById('num_procedures').value = 1; }
-      else if (n === 3) { document.getElementById('billed_amount').value = 2450; document.getElementById('days_since_injury').value = 8; document.getElementById('num_procedures').value = 5; }
+      if (n === 1) {
+        document.getElementById('billed_amount').value = 4285;
+        document.getElementById('days_since_injury').value = 1;
+        document.getElementById('num_procedures').value = 6;
+      } else if (n === 2) {
+        document.getElementById('billed_amount').value = 875;
+        document.getElementById('days_since_injury').value = 45;
+        document.getElementById('num_procedures').value = 1;
+      } else if (n === 3) {
+        document.getElementById('billed_amount').value = 2450;
+        document.getElementById('days_since_injury').value = 8;
+        document.getElementById('num_procedures').value = 5;
+      }
     }
 
     document.getElementById('claimForm').addEventListener('submit', async (e) => {
