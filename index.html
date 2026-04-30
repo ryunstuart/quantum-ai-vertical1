@@ -56,11 +56,20 @@
     .examples {
       padding: 32px 40px;
       background: #1e2937;
+      text-align: center;
+      border-bottom: 1px solid #334155;
+    }
+    .examples strong {
+      display: block;
+      color: #94a3b8;
+      margin-bottom: 16px;
+      font-size: 17px;
+    }
+    .button-row {
       display: flex;
       justify-content: center;
       gap: 16px;
       flex-wrap: wrap;
-      border-bottom: 1px solid #334155;
     }
     .example-btn {
       padding: 14px 32px;
@@ -160,10 +169,12 @@
     </div>
 
     <div class="examples">
-      <strong style="color:#94a3b8; margin-bottom: 16px; display:block; text-align:center; font-size:17px;">Click any sample claim below to see Quantum Sentinel in action:</strong>
-      <button class="example-btn" onclick="loadExample(1)">🔴 High Risk Claim</button>
-      <button class="example-btn" onclick="loadExample(2)">🟢 Normal Claim</button>
-      <button class="example-btn" onclick="loadExample(3)">🟠 Medium Risk Claim</button>
+      <strong>Click any sample claim below to see Quantum Sentinel in action:</strong>
+      <div class="button-row">
+        <button class="example-btn" onclick="loadExample(1)">🔴 High Risk Claim</button>
+        <button class="example-btn" onclick="loadExample(2)">🟢 Normal Claim</button>
+        <button class="example-btn" onclick="loadExample(3)">🟠 Medium Risk Claim</button>
+      </div>
     </div>
 
     <div class="form-container">
